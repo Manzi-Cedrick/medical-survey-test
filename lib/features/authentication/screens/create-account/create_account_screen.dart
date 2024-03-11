@@ -1,5 +1,5 @@
 import 'package:app_test/common/form_image/image_header.dart';
-import 'package:app_test/common/section/t_section_header.dart';
+import 'package:app_test/common/section/section_header.dart';
 import 'package:app_test/common/style/spacing_style.dart';
 import 'package:app_test/features/authentication/screens/create-account/widgets/form_structure.dart';
 import 'package:app_test/utils/constants/image_strings.dart';

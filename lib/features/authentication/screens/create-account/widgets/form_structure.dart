@@ -1,5 +1,5 @@
-import 'package:app_test/features/authentication/screens/dob/dob_screen.dart';
 import 'package:app_test/features/authentication/screens/login/login_screen.dart';
+import 'package:app_test/features/authentication/screens/survey-format/occupation/starter_screen_dob.dart';
 import 'package:app_test/utils/constants/colors.dart';
 import 'package:app_test/utils/constants/sizes.dart';
 import 'package:app_test/utils/constants/text_strings.dart';
@@ -35,15 +35,15 @@ class TStructuredForm extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: () {}, child: const Text(TTexts.createAccount), style: ElevatedButton.styleFrom(
+                  onPressed: () => Get.to(() => const DobScreen()), style: ElevatedButton.styleFrom(
                     backgroundColor: TColors.primary,
-                  ),),
+                  ), child: const Text(TTexts.createAccount),),
             ),
 
             const SizedBox(height: TSizes.spaceBtwSections),
             TextButton(onPressed: () => Get.to(const SignIn()), child: Text('Sign In', style: Theme.of(context).textTheme.titleSmall!.apply(color: TColors.primary))),
             const SizedBox(height: TSizes.spaceBtwItems),
-            OutlinedButton(onPressed: () =>  Get.to(const DobScreen()), child: Text('Sign up with Phone number', style: Theme.of(context).textTheme.titleSmall!.apply(color: TColors.primary)), style: OutlinedButton.styleFrom(side: const BorderSide(color: TColors.primary)),),
+            OutlinedButton(onPressed: () =>  Get.to(const DobScreen()), style: OutlinedButton.styleFrom(side: const BorderSide(color: TColors.primary)), child: Text('Sign up with Phone number', style: Theme.of(context).textTheme.titleSmall!.apply(color: TColors.primary)),),
             const SizedBox(height: TSizes.spaceBtwSections),
             TextButton(onPressed: () {}, child: const Text('Forgot your Password'))
           ],
