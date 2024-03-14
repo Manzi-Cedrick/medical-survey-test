@@ -1,19 +1,21 @@
 import 'package:app_test/utils/constants/colors.dart';
 import 'package:app_test/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class TSectionFooterButtons extends StatelessWidget {
-  const TSectionFooterButtons({super.key, required this.onPressed});
+  const TSectionFooterButtons({super.key, required this.onPressed, this.activateDisabled = false});
 
   final VoidCallback onPressed;
+  final bool activateDisabled;
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         ElevatedButton(
-          onPressed: () => Get.back(),
+          onPressed: () {
+            Navigator.pop(context);
+          },
           style: ElevatedButton.styleFrom(
               backgroundColor: TColors.lightGrey,
               shape: RoundedRectangleBorder(
@@ -31,12 +33,12 @@ class TSectionFooterButtons extends StatelessWidget {
           ),
         ),
         ElevatedButton(
-          onPressed: onPressed,
+          onPressed: activateDisabled ? null : onPressed ,
           style: ElevatedButton.styleFrom(
-              backgroundColor: TColors.primary,
+              backgroundColor: activateDisabled ? TColors.grey.withOpacity(0.5) : TColors.primary,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
-              side: const BorderSide(color: Colors.transparent)),
+              side: BorderSide.none),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: TSizes.lg),
             child: Text(
@@ -44,7 +46,7 @@ class TSectionFooterButtons extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodySmall!
-                  .apply(color: TColors.white),
+                  .apply(color: activateDisabled ? TColors.dark : TColors.white),
             ),
           ),
         ),
