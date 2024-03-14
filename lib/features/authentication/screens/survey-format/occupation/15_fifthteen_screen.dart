@@ -3,61 +3,120 @@ import 'package:app_test/common/question-box/question_header.dart';
 import 'package:app_test/common/section/previous_continue.dart';
 import 'package:app_test/common/section/primary_section.dart';
 import 'package:app_test/features/authentication/screens/survey-format/occupation/16_sixteen_screen.dart';
+import 'package:app_test/features/authentication/screens/survey-format/occupation/bloc/survey_form_bloc.dart';
 import 'package:app_test/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FifthTeenDetailScreen extends StatelessWidget {
+class FifthTeenDetailScreen extends StatefulWidget {
   const FifthTeenDetailScreen(
       {Key? key,
-      this.isCheckList,
-      this.cigarettesStatus = const [
-        'Yes',
-        'No'
-      ],
+      this.cigarettesStatus = const ['Yes', 'No'],
       this.cigarettesStatusDuration = const [
         'Some days of out of the week daily',
         'Some days of out of the week weekly',
         'A couple of times a month',
         'A couple of times a year',
-      ]
-      })
+      ]})
       : super(key: key);
+
   final List<String> cigarettesStatus;
   final List<String> cigarettesStatusDuration;
-  final List<bool>? isCheckList;
+
+  @override
+  _FifthTeenDetailScreenState createState() => _FifthTeenDetailScreenState();
+}
+
+class _FifthTeenDetailScreenState extends State<FifthTeenDetailScreen> {
+  int? selectedIndex;
+  int? selectedIndex2;
+  bool showSecondSection = false;
   @override
   Widget build(BuildContext context) {
-    final List<bool> checkList =
-        isCheckList ?? List.generate(cigarettesStatus.length, (index) => false);
-    final List<bool> checkSecondList =
-        isCheckList ?? List.generate(cigarettesStatusDuration.length, (index) => false);
-    return TPrimarySectionLayout(
-      child: Column(
-        children: [
-          const SizedBox(height: TSizes.spaceBtwSections),
-          const SizedBox(
-            width: double.infinity,
-            child: TQuestionHeader(
-              text: 'Do you smoke cigarettes ?',
-            ),
-          ),
-          SizedBox(height: TSizes.spaceBtwSections),
-          TRadioListAnswerBox(items: cigarettesStatus, checkList: checkList, onChanged: (value) {}),
+    return BlocConsumer<SurveyFormBloc, SurveyFormState>(
+      listener: (context, state) {
+        // TODO: implement listener
 
-          const SizedBox(
-            width: double.infinity,
-            child: TQuestionHeader(
-              text: 'If yes how often ?',
-            ),
+        if (state.smokeCigarettes.isNotEmpty) {
+          if (state.smokeCigarettes == 'Yes') {
+            setState(() {
+              showSecondSection = true;
+              print(showSecondSection);
+            });
+          } else {
+            setState(() {
+              showSecondSection = false;
+            });
+          }
+        }
+      },
+      builder: (context, state) {
+        return TPrimarySectionLayout(
+          child: Column(
+            children: [
+              const SizedBox(height: TSizes.spaceBtwSections),
+              const SizedBox(
+                width: double.infinity,
+                child: TQuestionHeader(
+                  text: 'Do you smoke cigarettes ?',
+                ),
+              ),
+              const SizedBox(height: TSizes.spaceBtwSections),
+              // TRadioListAnswerBox(items: cigarettesStatus, checkList: checkList, onChanged: (value) {}),
+              TRadioListAnswerBox(
+                items: widget.cigarettesStatus,
+                selectedValue: selectedIndex,
+                onChanged: (value) {
+                  setState(() {
+                    selectedIndex = value; // Update the selected index
+                    context.read<SurveyFormBloc>().add(
+                        SurveyFormSmokeCigarettesEvent(
+                            widget.cigarettesStatus[value]));
+                  });
+                },
+              ),
+              if (showSecondSection)
+                Flexible(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        width: double.infinity,
+                        child: TQuestionHeader(
+                          text: 'If yes how often ?',
+                        ),
+                      ),
+                      const SizedBox(height: TSizes.spaceBtwSections),
+                      TRadioListAnswerBox(
+                        items: widget.cigarettesStatusDuration,
+                        selectedValue: selectedIndex2,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedIndex2 = value; // Update the selected index
+                            context.read<SurveyFormBloc>().add(
+                                SurveyFormOftenSmokeCigarettes(
+                                    widget.cigarettesStatusDuration[value]));
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              TSectionFooterButtons(
+                activateDisabled:
+                    state.smokeCigarettes.isNotEmpty ? false : true,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SixTeenDetailScreen(),
+                    ),
+                  );
+                },
+              )
+            ],
           ),
-          SizedBox(height: TSizes.spaceBtwSections),
-          TRadioListAnswerBox(items: cigarettesStatusDuration, checkList: checkSecondList, onChanged: (value) {}),
-          TSectionFooterButtons(
-            onPressed: () => Get.to(const SixTeenDetailScreen()),
-          )
-        ],
-      ),
+        );
+      },
     );
   }
 }

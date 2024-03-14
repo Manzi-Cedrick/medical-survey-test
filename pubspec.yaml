@@ -37,6 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   url_launcher: ^6.2.4
   iconsax: ^0.0.8
+  flutter_bloc: ^8.1.4
+  equatable: ^2.0.5
+  date_picker_plus: ^3.0.0
 
 dev_dependencies:
   flutter_test:

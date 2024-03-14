@@ -3,64 +3,127 @@ import 'package:app_test/common/question-box/question_header.dart';
 import 'package:app_test/common/section/previous_continue.dart';
 import 'package:app_test/common/section/primary_section.dart';
 import 'package:app_test/features/authentication/screens/survey-format/occupation/09_nineth_screen.dart';
+import 'package:app_test/features/authentication/screens/survey-format/occupation/bloc/survey_form_bloc.dart';
 import 'package:app_test/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class EightDetailScreen extends StatelessWidget {
+class EightDetailScreen extends StatefulWidget {
   const EightDetailScreen(
       {Key? key,
-      this.isCheckList,
       this.relationshipStatus = const [
         'Yes',
-        'Sometimes',
-        'Not really',
-        'Never'
+        'No',
       ],
       this.relationshipStatusDuration = const [
         'Daily',
         'Weekly',
         'Monthly',
-        'Annually'
+        'Annually',
         'Never'
-      ]
-      })
+      ]})
       : super(key: key);
   final List<String> relationshipStatus;
   final List<String> relationshipStatusDuration;
-  final List<bool>? isCheckList;
+
+  @override
+  _EightDetailScreen createState() => _EightDetailScreen();
+}
+
+class _EightDetailScreen extends State<EightDetailScreen> {
+  int? selectedIndex;
+  int? selectedIndex2;
+  bool showSecondSection = false;
+
   @override
   Widget build(BuildContext context) {
-    final List<bool> checkList =
-        isCheckList ?? List.generate(relationshipStatus.length, (index) => false);
-    final List<bool> checkSecondList =
-        isCheckList ?? List.generate(relationshipStatusDuration.length, (index) => false);
-    return TPrimarySectionLayout(
-      child: Column(
-        children: [
-          const SizedBox(height: TSizes.spaceBtwSections),
-          const SizedBox(
-            width: double.infinity,
-            child: TQuestionHeader(
-              text: 'Are you close with your family and relatives ?',
-            ),
-          ),
-          SizedBox(height: TSizes.spaceBtwSections),
-          TRadioListAnswerBox(items: relationshipStatus, checkList: checkList, onChanged: (value) {}),
+    return BlocConsumer<SurveyFormBloc, SurveyFormState>(
+      listener: (context, state) {
+        // Listener logic here
 
-          const SizedBox(
-            width: double.infinity,
-            child: TQuestionHeader(
-              text: 'How often do you speak with your family and relatives ?',
-            ),
+        print(state.closeWithFamilyRelationship);
+
+        if (state.closeWithFamilyRelationship.isNotEmpty) {
+          if (state.closeWithFamilyRelationship == 'No') {
+            setState(() {
+              showSecondSection = true;
+              print(showSecondSection);
+            });
+          } else {
+            setState(() {
+              showSecondSection = false;
+            });
+          }
+        }
+      },
+      builder: (context, state) {
+        return TPrimarySectionLayout(
+          child: Column(
+            children: [
+              const SizedBox(height: TSizes.spaceBtwSections),
+              const SizedBox(
+                width: double.infinity,
+                child: TQuestionHeader(
+                  text: 'Are you close with your family and relatives ?',
+                ),
+              ),
+              const SizedBox(height: TSizes.spaceBtwSections),
+              TRadioListAnswerBox(
+                items: widget.relationshipStatus,
+                selectedValue: selectedIndex,
+                onChanged: (value) {
+                  setState(() {
+                    selectedIndex = value;
+                    context.read<SurveyFormBloc>().add(
+                          SurveyFormCloseWithFamilyRelationshipEvent(
+                              widget.relationshipStatus[value]),
+                        );
+                  });
+                },
+              ),
+              if (showSecondSection)
+                Flexible(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        width: double.infinity,
+                        child: TQuestionHeader(
+                          text:
+                              'How often do you speak with your family and relatives?',
+                        ),
+                      ),
+                      const SizedBox(height: TSizes.spaceBtwSections),
+                      TRadioListAnswerBox(
+                        items: widget.relationshipStatusDuration,
+                        selectedValue: selectedIndex2,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedIndex2 = value;
+                            context.read<SurveyFormBloc>().add(
+                                  SurveyFormOftenInteractionWithFamily(
+                                      widget.relationshipStatusDuration[value])
+                                );
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              TSectionFooterButtons(
+                activateDisabled:
+                    state.closeWithFamilyRelationship.isNotEmpty ? false : true,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const NinthDetailScreen()),
+                  );
+                },
+              ),
+            ],
           ),
-          SizedBox(height: TSizes.spaceBtwSections),
-          TRadioListAnswerBox(items: relationshipStatusDuration, checkList: checkSecondList, onChanged: (value) {}),
-          TSectionFooterButtons(
-            onPressed: () => Get.to(const NinthDetailScreen()),
-          )
-        ],
-      ),
+        );
+      },
     );
   }
 }
