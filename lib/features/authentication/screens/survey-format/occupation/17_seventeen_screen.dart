@@ -4,7 +4,7 @@ import 'package:app_test/common/section/previous_continue.dart';
 import 'package:app_test/common/section/primary_section.dart';
 import 'package:app_test/features/authentication/screens/survey-format/occupation/18_eightteen_screen.dart';
 import 'package:app_test/features/authentication/screens/survey-format/occupation/bloc/survey_form_bloc.dart';
-import 'package:app_test/features/authentication/screens/survey-format/occupation/end_survey_screen.dart';
+import 'package:app_test/features/authentication/screens/survey-format/occupation/final_display_screen.dart';
 import 'package:app_test/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,11 +76,11 @@ class _SevenTeenDetailScreenState extends State<SevenTeenDetailScreen> {
 
                           if (widget.drugStatus[value] == 'No') {
                             context.read<SurveyFormBloc>().add(
-                                SurveyFormCurrentPage(state.currentPage + 3));
+                                SurveyFormCurrentPage(state.currentPage + 2));
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const EndSurveyScreen(),
+                                builder: (context) => const DisplayScreen(),
                               ),
                             );
                           }
