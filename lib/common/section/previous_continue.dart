@@ -60,24 +60,32 @@ class _TSectionFooterButtons extends State<TSectionFooterButtons> {
             );
           },
         ),
-        ElevatedButton(
-          onPressed: widget.activateDisabled ? null : widget.onPressed,
-          style: ElevatedButton.styleFrom(
-              backgroundColor: widget.activateDisabled
-                  ? TColors.grey.withOpacity(0.5)
-                  : TColors.primary,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              side: BorderSide.none),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: TSizes.lg),
-            child: Text(
-              'Continue',
-              style: Theme.of(context).textTheme.bodySmall!.apply(
-                  color:
-                      widget.activateDisabled ? TColors.dark : TColors.white),
-            ),
-          ),
+        BlocConsumer<SurveyFormBloc, SurveyFormState>(
+          listener: (context, state) {
+            // TODO: implement listener
+          },
+          builder: (context, state) {
+            return ElevatedButton(
+              onPressed: widget.activateDisabled ? null : widget.onPressed,
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: widget.activateDisabled
+                      ? TColors.grey.withOpacity(0.5)
+                      : TColors.primary,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  side: BorderSide.none),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: TSizes.lg),
+                child: Text(
+                  state.currentPage == 19 ? 'Submit Info' : 'Continue',
+                  style: Theme.of(context).textTheme.bodySmall!.apply(
+                      color: widget.activateDisabled
+                          ? TColors.dark
+                          : TColors.white),
+                ),
+              ),
+            );
+          },
         ),
       ],
     );
