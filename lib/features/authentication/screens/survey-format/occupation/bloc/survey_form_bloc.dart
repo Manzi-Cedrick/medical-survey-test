@@ -96,8 +96,38 @@ class SurveyFormBloc extends Bloc<SurveyFormEvent, SurveyFormState> {
     });
 
     on<SurveyFormSubmitEvent>((event, emit) {
-      print(state.toString());
       emit(state.copyWith(status: event.status));
+    });
+
+    on<SurveyFormResetEvent>((event, emit) {
+      print(state.toString());
+      emit(state.copyWith(
+          dateTime: DateTime.now(),
+          occupation: [],
+          occupationHrs: '',
+          physicalActivityDuration: '',
+          areaStructure: '',
+          livingStatus: '',
+          lifeStatusWithRoommates: '',
+          closeWithFamilyRelationship: '',
+          oftenInteractionWithFamily: '',
+          commonRebutals: '',
+          siblingsNumber: '',
+          siblingsNumberStatus: '',
+          personalRelationshipStatus: '',
+          smokeCannabis: '',
+          oftenSmokeCannabis: '',
+          smokeCigarettes: '',
+          oftenSmokeCigarettes: '',
+          drinkAlcohol: '',
+          oftenDrinkAlcohol: '',
+          drugConsumption: '',
+          parentsDivorced: '',
+          prescribedMedication: '',
+          prescribedMedicationList: [],
+          additionDescription: '',
+          status: TSurveyFormStatus.initial,
+          currentPage: state.currentPage));
     });
   }
 }
