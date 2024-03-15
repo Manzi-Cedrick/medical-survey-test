@@ -6,6 +6,7 @@ import 'package:app_test/features/authentication/screens/survey-format/occupatio
 import 'package:app_test/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class DobScreen extends StatefulWidget {
   const DobScreen({super.key});
@@ -15,14 +16,35 @@ class DobScreen extends StatefulWidget {
 }
 
 class _DobScreenState extends State<DobScreen> {
-  String? _selectedDate;
+  final TextEditingController _dateController = TextEditingController();
+  bool isValid = false; // Start with true to disable the button initially
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _dateController.text.isNotEmpty
+          ? DateTime.parse(_dateController.text)
+          : DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null) {
+      setState(() {
+        isValid = true;
+        String formattedDate = DateFormat('yyyy-MM-dd').format(picked);
+        _dateController.text = formattedDate;
+        context.read<SurveyFormBloc>().add(SurveyFormDateTimeEvent(picked));
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<SurveyFormBloc, SurveyFormState>(
         listener: (context, state) {
-          // TODO: implement listener
-          // print(state.dateTime);
+          print(state.dateTime);
+
+          print(isValid);
         },
         builder: (context, state) {
           return TPrimarySectionLayout(
@@ -40,38 +62,59 @@ class _DobScreenState extends State<DobScreen> {
                   listener: (context, state) {},
                   builder: (context, state) {
                     return TextFormField(
+                      controller: _dateController,
+                      keyboardType: TextInputType.datetime,
                       onChanged: (value) {
                         setState(() {
                           DateTime? parsedDate = DateTime.tryParse(value);
+                          isValid = parsedDate != null &&
+                              !parsedDate.isAfter(DateTime.now());
                           if (parsedDate != null) {
-                            print(parsedDate);
-                            context.read<SurveyFormBloc>().add(
-                                  SurveyFormDateTimeEvent(parsedDate),
-                                );
+                            context
+                                .read<SurveyFormBloc>()
+                                .add(SurveyFormDateTimeEvent(parsedDate));
                           }
                         });
                       },
-                      keyboardType: TextInputType.datetime,
                       decoration: InputDecoration(
                         labelText: 'Date',
+                        hintText: 'yyyy-MM-dd',
                         suffixIcon: IconButton(
                           icon: const Icon(Icons.calendar_today),
-                          onPressed: () {
-                            showDatePicker(context: context,initialDate: DateTime.now(), firstDate: DateTime(2017,9,1), lastDate: DateTime.now());
-                          },
+                          onPressed: () => _selectDate(context),
                         ),
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          isValid = false;
+                          return 'Please enter a date';
+                        }
+                        DateTime? parsedDate = DateTime.tryParse(value);
+                        if (parsedDate == null) {
+                          isValid = false;
+                          // print(isValid);
+                          return 'Invalid date format';
+                        }
+                        if (parsedDate.isAfter(DateTime.now())) {
+                          return 'Date cannot be in the future';
+                        }
+                        return null;
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                     );
                   },
                 ),
                 const SizedBox(height: TSizes.spaceBtwSections),
                 TSectionFooterButtons(
+                  activateDisabled: !isValid,
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) {
-                      return BlocProvider(
-                          create: (context) => SurveyFormBloc(),
-                          child: const OccupationDetailScreen());
-                    }));
+                    context
+                        .read<SurveyFormBloc>()
+                        .add(SurveyFormCurrentPage(state.currentPage + 1));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const OccupationDetailScreen()));
                   },
                 )
               ],
