@@ -95,6 +95,9 @@ class SurveyFormBloc extends Bloc<SurveyFormEvent, SurveyFormState> {
       emit(state.copyWith(currentPage: event.currentPage));
     });
 
+    on<SurveyFormIncrementCurrentPage>((event, emit) {
+      emit(state.copyWith(currentIncrement: event.currentIncrement));
+    });
     on<SurveyFormSubmitEvent>((event, emit) {
       emit(state.copyWith(status: event.status));
     });
@@ -127,7 +130,19 @@ class SurveyFormBloc extends Bloc<SurveyFormEvent, SurveyFormState> {
           prescribedMedicationList: [],
           additionDescription: '',
           status: TSurveyFormStatus.initial,
-          currentPage: state.currentPage));
+          currentPage: state.currentPage,
+          currentIncrement: 1
+          ));
     });
+
+    on<SurveyFormResetEventOptionals>((event, emit) {
+      emit(state.copyWith(
+        prescribedMedication: '',
+        prescribedMedicationList: [''],
+        status: TSurveyFormStatus.success,
+        additionDescription: '',
+      ));
+    });
+    
   }
 }

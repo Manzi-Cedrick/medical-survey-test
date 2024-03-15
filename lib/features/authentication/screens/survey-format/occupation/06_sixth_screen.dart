@@ -67,8 +67,7 @@ class _SixthScreenDetail extends State<SixthScreenDetail> {
                 },
               ),
               TSectionFooterButtons(
-                activateDisabled: state.livingStatus.isNotEmpty &&
-                        state.livingStatus != 'Alone'
+                activateDisabled: state.livingStatus.isNotEmpty 
                     ? false
                     : true,
                 onPressed: () {
@@ -81,6 +80,15 @@ class _SixthScreenDetail extends State<SixthScreenDetail> {
                       context,
                       MaterialPageRoute(
                           builder: (_) => const SeventhDetailScreen()),
+                    );
+                  } else {
+                    context
+                        .read<SurveyFormBloc>()
+                        .add(SurveyFormCurrentPage(state.currentPage + 2));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const EightDetailScreen()),
                     );
                   }
                 },

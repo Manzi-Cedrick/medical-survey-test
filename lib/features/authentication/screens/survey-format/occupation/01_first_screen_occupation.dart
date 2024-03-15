@@ -28,18 +28,7 @@ class _OccupationDetailScreenState extends State<OccupationDetailScreen> {
 
     return Scaffold(
       body: BlocConsumer<SurveyFormBloc, SurveyFormState>(
-        listener: (context, state) {
-          if (state.occupation.isNotEmpty &&
-              state.occupation.contains('None')) {
-            String occupationsText =
-                'None should not be selected'; // Convert list to a string
-            CustomSnackbar.show(context, occupationsText);
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const FourthScreenDetail()),
-            );
-          }
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           return TPrimarySectionLayout(
             child: Column(
@@ -66,19 +55,55 @@ class _OccupationDetailScreenState extends State<OccupationDetailScreen> {
                     context
                         .read<SurveyFormBloc>()
                         .add(SurveyFormOccupationEvent(selectedOccupations));
+
+                    if (selectedOccupations.contains('None')) {
+                      String occupationsText =
+                          'None should not be selected'; // Convert list to a string
+                      CustomSnackbar.show(context, occupationsText);
+                      context
+                          .read<SurveyFormBloc>()
+                          .add(SurveyFormCurrentPage(state.currentPage + 2));
+
+                      context
+                          .read<SurveyFormBloc>()
+                          .add(const SurveyFormIncrementCurrentPage(2));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const FourthScreenDetail()),
+                      );
+                    }
                   },
                 ),
                 TSectionFooterButtons(
                   activateDisabled: state.occupation.isNotEmpty ? false : true,
                   onPressed: () {
-                    context
-                        .read<SurveyFormBloc>()
-                        .add(SurveyFormCurrentPage(state.currentPage + 1));
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const SecondHourDetailScreen()),
-                    );
+                    if (state.occupation.contains('None') || checkList[occupations.indexOf('None')] == true) {
+                      String occupationsText =
+                          'None should not be selected'; // Convert list to a string
+                      CustomSnackbar.show(context, occupationsText);
+                      context
+                          .read<SurveyFormBloc>()
+                          .add(SurveyFormCurrentPage(state.currentPage + 2));
+
+                      context
+                          .read<SurveyFormBloc>()
+                          .add(const SurveyFormIncrementCurrentPage(2));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const FourthScreenDetail()),
+                      );
+                    } else {
+                      context
+                          .read<SurveyFormBloc>()
+                          .add(SurveyFormCurrentPage(state.currentPage + 1));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const SecondHourDetailScreen()),
+                      );
+                    }
                   },
                 )
               ],

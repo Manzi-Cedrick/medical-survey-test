@@ -22,16 +22,7 @@ class _NineTeenDetailScreenState extends State<NineTeenDetailScreen> {
     return BlocConsumer<SurveyFormBloc, SurveyFormState>(
       listener: (context, state) {
         // Check for the success status and navigate to the next screen
-        if (state.status == TSurveyFormStatus.success && !hasNavigated) {
-          hasNavigated = true; // Set the flag to true after navigation
-          Future.delayed(const Duration(seconds: 2), () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const DisplayScreen(),
-              ),
-            );
-          });
-        }
+        
       },
       builder: (context, state) {
         return TPrimarySectionLayout(
@@ -67,6 +58,12 @@ class _NineTeenDetailScreenState extends State<NineTeenDetailScreen> {
                   context.read<SurveyFormBloc>().add(
                         const SurveyFormSubmitEvent(TSurveyFormStatus.success),
                       );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DisplayScreen(),
+                    ),
+                  );
                 },
               )
             ],

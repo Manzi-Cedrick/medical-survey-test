@@ -62,23 +62,12 @@ class _DisplayScreenState extends State<DisplayScreen> {
                       },
                     ),
                     BlocSelector<SurveyFormBloc, SurveyFormState, String>(
-                      selector: (state) => state.occupationHrs,
+                      selector: (state) => state.occupationHrs.isNotEmpty && state.occupationHrs != '' ? state.occupationHrs : 'N/A',
                       builder: (context, occupationDuration) {
                         return ListTile(
                           title: Text('Occupation Duration',
                               style: Theme.of(context).textTheme.titleMedium),
                           subtitle: Text(occupationDuration,
-                              style: Theme.of(context).textTheme.labelMedium),
-                        );
-                      },
-                    ),
-                    BlocSelector<SurveyFormBloc, SurveyFormState, String>(
-                      selector: (state) => state.physicalActivityDuration,
-                      builder: (context, physicalduration) {
-                        return ListTile(
-                          title: Text('Physical Status',
-                              style: Theme.of(context).textTheme.titleMedium),
-                          subtitle: Text(physicalduration,
                               style: Theme.of(context).textTheme.labelMedium),
                         );
                       },
@@ -117,7 +106,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
                       },
                     ),
                     BlocSelector<SurveyFormBloc, SurveyFormState, String>(
-                      selector: (state) => state.lifeStatusWithRoommates,
+                      selector: (state) => state.lifeStatusWithRoommates.isNotEmpty && state.lifeStatusWithRoommates != '' ? state.lifeStatusWithRoommates : 'N/A',
                       builder: (context, lifeStatusWithRoommates) {
                         return ListTile(
                           title: Text('Life Status With Roommates',
@@ -139,13 +128,13 @@ class _DisplayScreenState extends State<DisplayScreen> {
                       },
                     ),
                     BlocSelector<SurveyFormBloc, SurveyFormState, String>(
-                      selector: (state) => state.oftenInteractionWithFamily,
+                      selector: (state) => state.oftenInteractionWithFamily.isNotEmpty && state.oftenInteractionWithFamily != '' ? state.oftenInteractionWithFamily : 'N/A',
                       builder: (context, oftenInteractionWithFamily) {
                         return ListTile(
                           title: Text('Often Interaction With Family',
                               style: Theme.of(context).textTheme.titleMedium),
                           subtitle: Text(oftenInteractionWithFamily,
-                              style: Theme.of(context).textTheme.labelMedium),
+                              style: Theme.of(context).textTheme.labelMedium)
                         );
                       },
                     ),
@@ -172,7 +161,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
                       },
                     ),
                     BlocSelector<SurveyFormBloc, SurveyFormState, String>(
-                      selector: (state) => state.siblingsNumberStatus,
+                      selector: (state) => state.siblingsNumberStatus.isNotEmpty && state.siblingsNumberStatus != '' ? state.siblingsNumberStatus : 'N/A',
                       builder: (context, siblingsNumberStatus) {
                         return ListTile(
                           title: Text('Siblings Number Status',
@@ -216,7 +205,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
                       },
                     ),
                     BlocSelector<SurveyFormBloc, SurveyFormState, String>(
-                      selector: (state) => state.oftenSmokeCannabis,
+                      selector: (state) => state.oftenSmokeCannabis.isNotEmpty && state.oftenSmokeCannabis != '' ? state.oftenSmokeCannabis : 'N/A',
                       builder: (context, oftenSmokeCannabis) {
                         return ListTile(
                           title: Text('How often do you smoke cannabis?',
@@ -238,7 +227,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
                       },
                     ),
                     BlocSelector<SurveyFormBloc, SurveyFormState, String>(
-                      selector: (state) => state.oftenSmokeCigarettes,
+                      selector: (state) => state.oftenSmokeCigarettes.isNotEmpty && state.oftenSmokeCigarettes != '' ? state.oftenSmokeCigarettes : 'N/A',
                       builder: (context, oftenSmokeCigarettes) {
                         return ListTile(
                           title: Text('How often do you smoke cigarettes?',
@@ -260,7 +249,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
                       },
                     ),
                     BlocSelector<SurveyFormBloc, SurveyFormState, String>(
-                      selector: (state) => state.oftenDrinkAlcohol,
+                      selector: (state) => state.oftenDrinkAlcohol.isNotEmpty && state.oftenDrinkAlcohol != '' ? state.oftenDrinkAlcohol : 'N/A',
                       builder: (context, oftenDrinkAlcohol) {
                         return ListTile(
                           title: Text('How often do you drink alcohol?',
@@ -282,7 +271,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
                       },
                     ),
                     BlocSelector<SurveyFormBloc, SurveyFormState, String>(
-                      selector: (state) => state.prescribedMedication,
+                      selector: (state) => state.prescribedMedication.isNotEmpty && state.prescribedMedication != '' ? state.prescribedMedication : 'N/A',
                       builder: (context, prescribedMedication) {
                         return ListTile(
                           title: Text('Prescribed Medication',
@@ -293,10 +282,9 @@ class _DisplayScreenState extends State<DisplayScreen> {
                       },
                     ),
                     BlocSelector<SurveyFormBloc, SurveyFormState, List<String>>(
-                      selector: (state) => state.prescribedMedicationList,
+                      selector: (state) => state.prescribedMedicationList.isNotEmpty ? state.prescribedMedicationList : [''],
                       builder: (context, prescribedMedicationList) {
-                        String medicationList =
-                            prescribedMedicationList.join(', ');
+                        String medicationList = state.prescribedMedicationList.isNotEmpty ? prescribedMedicationList.join(', ') : 'N/A';
                         return ListTile(
                           title: Text('Prescribed Medication List',
                               style: Theme.of(context).textTheme.titleMedium),
@@ -306,7 +294,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
                       },
                     ),
                     BlocSelector<SurveyFormBloc, SurveyFormState, String>(
-                      selector: (state) => state.additionDescription,
+                      selector: (state) => state.additionDescription.isNotEmpty && state.additionDescription != '' ? state.additionDescription : 'N/A',
                       builder: (context, additionDescription) {
                         return ListTile(
                           title: Text('Additional Description',
@@ -335,7 +323,7 @@ class _DisplayScreenState extends State<DisplayScreen> {
 
                     context
                         .read<SurveyFormBloc>()
-                        .add(const SurveyFormResetEvent());
+                        .add(const SurveyFormResetEventOptionals());
                   },
                 )
               ],

@@ -76,13 +76,21 @@ class _SevenTeenDetailScreenState extends State<SevenTeenDetailScreen> {
 
                           if (widget.drugStatus[value] == 'No') {
                             context.read<SurveyFormBloc>().add(
-                                SurveyFormCurrentPage(state.currentPage + 2));
+                                SurveyFormCurrentPage(state.currentPage + 3));
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const DisplayScreen(),
                               ),
                             );
+                            context
+                                .read<SurveyFormBloc>()
+                                .add(const SurveyFormIncrementCurrentPage(3));
+
+                            context
+                                .read<SurveyFormBloc>()
+                                .add(const SurveyFormResetEventOptionals());
                           }
                         });
                       },

@@ -245,6 +245,20 @@ class SurveyFormSubmitEvent extends SurveyFormEvent {
   List<Object> get props => [status];
 }
 
+class SurveyFormIncrementCurrentPage extends SurveyFormEvent {
+  final int currentIncrement;
+
+  const SurveyFormIncrementCurrentPage(this.currentIncrement);
+
+  @override
+  List<Object> get props => [currentIncrement];
+}
+
 class SurveyFormResetEvent extends SurveyFormEvent {
   const SurveyFormResetEvent();
 }
+
+class SurveyFormResetEventOptionals extends SurveyFormEvent {
+  const SurveyFormResetEventOptionals();
+}
+
