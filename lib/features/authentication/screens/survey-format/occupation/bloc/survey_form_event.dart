@@ -244,3 +244,7 @@ class SurveyFormSubmitEvent extends SurveyFormEvent {
   @override
   List<Object> get props => [status];
 }
+
+class SurveyFormResetEvent extends SurveyFormEvent {
+  const SurveyFormResetEvent();
+}
