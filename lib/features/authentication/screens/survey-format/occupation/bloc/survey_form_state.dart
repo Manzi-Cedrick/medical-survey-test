@@ -33,6 +33,7 @@ class SurveyFormState extends Equatable {
     required this.additionDescription,
     required this.parentsDivorced,
     required this.status,
+    required this.currentPage
   });
 
   final DateTime dateTime;
@@ -60,6 +61,7 @@ class SurveyFormState extends Equatable {
   final List<String> prescribedMedicationList;
   final String additionDescription;
   final TSurveyFormStatus status;
+  final int currentPage;
   SurveyFormState copyWith(
       {DateTime? dateTime,
       List<String>? occupation,
@@ -85,7 +87,9 @@ class SurveyFormState extends Equatable {
       String? prescribedMedication,
       List<String>? prescribedMedicationList,
       TSurveyFormStatus? status,
-      String? additionDescription}) {
+      String? additionDescription,
+      int? currentPage
+      }) {
     return SurveyFormState(
       dateTime: dateTime ?? this.dateTime,
       occupation: occupation ?? this.occupation,
@@ -111,7 +115,8 @@ class SurveyFormState extends Equatable {
       prescribedMedication: prescribedMedication ?? this.prescribedMedication,
       prescribedMedicationList: prescribedMedicationList ?? this.prescribedMedicationList,
       additionDescription: additionDescription ?? this.additionDescription,
-      status: status ?? this.status
+      status: status ?? this.status,
+      currentPage: currentPage ?? this.currentPage
     );
   }
 
@@ -141,7 +146,8 @@ class SurveyFormState extends Equatable {
         prescribedMedication,
         prescribedMedicationList,
         additionDescription,
-        status
+        status,
+        currentPage
       ];
 }
 
@@ -172,6 +178,7 @@ final class SurveyFormInitial extends SurveyFormState {
           prescribedMedication: '',
           prescribedMedicationList: [],
           additionDescription: '',
-          status: TSurveyFormStatus.initial
+          status: TSurveyFormStatus.initial,
+          currentPage: 1
         );
 }
