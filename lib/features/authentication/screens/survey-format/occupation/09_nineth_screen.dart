@@ -39,21 +39,24 @@ class _NinthDetailScreenState extends State<NinthDetailScreen> {
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
               TRadioListAnswerBox(
-                  items: widget.commonRebutals,
-                  selectedValue: selectedIndex,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedIndex = value; // Update the selected index
-                      context.read<SurveyFormBloc>().add(
-                            SurveyFormCommonRebutalsEvent(
-                                widget.commonRebutals[value])
-                          );
-                    });
-                  },
-                ),
+                items: widget.commonRebutals,
+                selectedValue: selectedIndex,
+                onChanged: (value) {
+                  setState(() {
+                    selectedIndex = value; // Update the selected index
+                    context.read<SurveyFormBloc>().add(
+                        SurveyFormCommonRebutalsEvent(
+                            widget.commonRebutals[value]));
+                  });
+                },
+              ),
               TSectionFooterButtons(
-                activateDisabled: state.commonRebutals.isNotEmpty ? false : true,
+                activateDisabled:
+                    state.commonRebutals.isNotEmpty ? false : true,
                 onPressed: () {
+                  context
+                      .read<SurveyFormBloc>()
+                      .add(SurveyFormCurrentPage(state.currentPage + 1));
                   Navigator.push(
                     context,
                     MaterialPageRoute(

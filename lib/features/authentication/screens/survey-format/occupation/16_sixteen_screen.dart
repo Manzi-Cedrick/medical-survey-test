@@ -51,29 +51,42 @@ class _SixTeenDetailScreenState extends State<SixTeenDetailScreen> {
       builder: (context, state) {
         return TPrimarySectionLayout(
           child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.start, // Align children at the start
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              const SizedBox(height: TSizes.spaceBtwSections),
-              const SizedBox(
-                width: double.infinity,
-                child: TQuestionHeader(
-                  text: 'Do you smoke alcohol ?',
+              Flexible(
+                flex: 2,
+                child: Column(
+                  children: [
+                    const SizedBox(height: TSizes.spaceBtwSections),
+                    const SizedBox(
+                      width: double.infinity,
+                      child: TQuestionHeader(
+                        text: 'Do you smoke alcohol ?',
+                      ),
+                    ),
+                    const SizedBox(height: TSizes.spaceBtwSections),
+                    TRadioListAnswerBox(
+                      items: widget.alcoholStatus,
+                      selectedValue: selectedIndex,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedIndex = value; // Update the selected index
+                          context.read<SurveyFormBloc>().add(
+                              SurveyFormDrinkAlcoholEvent(
+                                  widget.alcoholStatus[value]));
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
-              TRadioListAnswerBox(
-                items: widget.alcoholStatus,
-                selectedValue: selectedIndex,
-                onChanged: (value) {
-                  setState(() {
-                    selectedIndex = value; // Update the selected index
-                    context.read<SurveyFormBloc>().add(
-                        SurveyFormDrinkAlcoholEvent(
-                            widget.alcoholStatus[value]));
-                  });
-                },
-              ),
               if (showSecondSection)
                 Flexible(
+                  flex: 3,
                   child: Column(
                     children: [
                       const SizedBox(
@@ -99,8 +112,16 @@ class _SixTeenDetailScreenState extends State<SixTeenDetailScreen> {
                   ),
                 ),
               TSectionFooterButtons(
-                activateDisabled: state.drinkAlcohol.isNotEmpty ? false : true,
+                activateDisabled: state.drinkAlcohol.isNotEmpty &&
+                        (state.drinkAlcohol == 'No' ||
+                            (state.drinkAlcohol == 'Yes' &&
+                                selectedIndex2 != null))
+                    ? false
+                    : true,
                 onPressed: () {
+                  context
+                      .read<SurveyFormBloc>()
+                      .add(SurveyFormCurrentPage(state.currentPage + 1));
                   Navigator.push(
                     context,
                     MaterialPageRoute(

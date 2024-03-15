@@ -41,8 +41,6 @@ class _EightDetailScreen extends State<EightDetailScreen> {
       listener: (context, state) {
         // Listener logic here
 
-        print(state.closeWithFamilyRelationship);
-
         if (state.closeWithFamilyRelationship.isNotEmpty) {
           if (state.closeWithFamilyRelationship == 'No') {
             setState(() {
@@ -59,30 +57,43 @@ class _EightDetailScreen extends State<EightDetailScreen> {
       builder: (context, state) {
         return TPrimarySectionLayout(
           child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.start, // Align children at the start
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              const SizedBox(height: TSizes.spaceBtwSections),
-              const SizedBox(
-                width: double.infinity,
-                child: TQuestionHeader(
-                  text: 'Are you close with your family and relatives ?',
+              Flexible(
+                flex: 2,
+                child: Column(
+                  children: [
+                    const SizedBox(height: TSizes.spaceBtwSections),
+                    const SizedBox(
+                      width: double.infinity,
+                      child: TQuestionHeader(
+                        text: 'Are you close with your family and relatives ?',
+                      ),
+                    ),
+                    const SizedBox(height: TSizes.spaceBtwSections),
+                    TRadioListAnswerBox(
+                      items: widget.relationshipStatus,
+                      selectedValue: selectedIndex,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedIndex = value;
+                          context.read<SurveyFormBloc>().add(
+                                SurveyFormCloseWithFamilyRelationshipEvent(
+                                    widget.relationshipStatus[value]),
+                              );
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
-              TRadioListAnswerBox(
-                items: widget.relationshipStatus,
-                selectedValue: selectedIndex,
-                onChanged: (value) {
-                  setState(() {
-                    selectedIndex = value;
-                    context.read<SurveyFormBloc>().add(
-                          SurveyFormCloseWithFamilyRelationshipEvent(
-                              widget.relationshipStatus[value]),
-                        );
-                  });
-                },
-              ),
               if (showSecondSection)
                 Flexible(
+                  flex: 3,
                   child: Column(
                     children: [
                       const SizedBox(
@@ -100,9 +111,8 @@ class _EightDetailScreen extends State<EightDetailScreen> {
                           setState(() {
                             selectedIndex2 = value;
                             context.read<SurveyFormBloc>().add(
-                                  SurveyFormOftenInteractionWithFamily(
-                                      widget.relationshipStatusDuration[value])
-                                );
+                                SurveyFormOftenInteractionWithFamily(
+                                    widget.relationshipStatusDuration[value]));
                           });
                         },
                       ),
@@ -111,8 +121,16 @@ class _EightDetailScreen extends State<EightDetailScreen> {
                 ),
               TSectionFooterButtons(
                 activateDisabled:
-                    state.closeWithFamilyRelationship.isNotEmpty ? false : true,
+                    state.closeWithFamilyRelationship.isNotEmpty &&
+                            (state.closeWithFamilyRelationship == 'Yes' ||
+                                (state.closeWithFamilyRelationship == 'No' &&
+                                    selectedIndex2 != null))
+                        ? false
+                        : true,
                 onPressed: () {
+                  context
+                      .read<SurveyFormBloc>()
+                      .add(SurveyFormCurrentPage(state.currentPage + 1));
                   Navigator.push(
                     context,
                     MaterialPageRoute(

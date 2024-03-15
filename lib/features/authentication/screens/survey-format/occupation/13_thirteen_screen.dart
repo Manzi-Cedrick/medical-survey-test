@@ -45,29 +45,30 @@ class _ThirteenthDetailScreenState extends State<ThirteenthDetailScreen> {
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
               TRadioListAnswerBox(
-                  items: widget.homeMarietalStatus,
-                  selectedValue: selectedIndex,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedIndex = value; // Update the selected index
-                      context.read<SurveyFormBloc>().add(
-                            SurveyFormPersonalRelationshipStatusEvent(
-                                widget.homeMarietalStatus[value])
-                          );
-                    });
-                  },
-                ),
+                items: widget.homeMarietalStatus,
+                selectedValue: selectedIndex,
+                onChanged: (value) {
+                  setState(() {
+                    selectedIndex = value; // Update the selected index
+                    context.read<SurveyFormBloc>().add(
+                        SurveyFormPersonalRelationshipStatusEvent(
+                            widget.homeMarietalStatus[value]));
+                  });
+                },
+              ),
               TSectionFooterButtons(
-                activateDisabled: state.personalRelationshipStatus.isNotEmpty
-                    ? false
-                    : true,
+                activateDisabled:
+                    state.personalRelationshipStatus.isNotEmpty ? false : true,
                 onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const FourTeenDetailScreen(),
-                      ),
-                    );                
+                  context
+                      .read<SurveyFormBloc>()
+                      .add(SurveyFormCurrentPage(state.currentPage + 1));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FourTeenDetailScreen(),
+                    ),
+                  );
                 },
               )
             ],

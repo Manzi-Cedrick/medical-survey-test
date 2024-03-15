@@ -50,71 +50,88 @@ class _FourTeenDetailScreenState extends State<FourTeenDetailScreen> {
       },
       builder: (context, state) {
         return TPrimarySectionLayout(
-          child: Column(
-            children: [
-              const SizedBox(height: TSizes.spaceBtwSections),
-              const SizedBox(
-                width: double.infinity,
-                child: TQuestionHeader(
-                  text: 'Do you smoke cannabis ?',
-                ),
-              ),
-              const SizedBox(height: TSizes.spaceBtwSections),
-              TRadioListAnswerBox(
-                items: widget.canabisStatus,
-                selectedValue: selectedIndex,
-                onChanged: (value) {
-                  setState(() {
-                    selectedIndex = value; // Update the selected index
-                    context.read<SurveyFormBloc>().add(
-                        SurveyFormSmokeCannabisEvent(
-                            widget.canabisStatus[value]));
-                  });
-                },
-              ),
-              if (showSecondSection)
-                Flexible(
-                  child: Container(
-                    child: Column(
-                      children: [
-                        // const SizedBox(height: TSizes.spaceBtwSections),
-                        const SizedBox(
-                          width: double.infinity,
-                          child: TQuestionHeader(
-                            text: 'How often do you smoke cannabis ?',
-                          ),
-                        ),
-                        TRadioListAnswerBox(
-                          items: widget.canabisStatusDuration,
-                          selectedValue: selectedIndex2,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedIndex2 = value; // Update the selected index
-                              context.read<SurveyFormBloc>().add(
-                                  SurveyFormOftenSmokeCannabis(
-                                      widget.canabisStatusDuration[value]));
-                            });
-                          },
-                        ),
-                      ],
+            child: Column(
+          mainAxisAlignment:
+              MainAxisAlignment.start, // Align children at the start
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Flexible(
+              flex: 1,
+              child: Column(
+                children: [
+                  const SizedBox(height: TSizes.spaceBtwSections),
+                  const SizedBox(
+                    width: double.infinity,
+                    child: TQuestionHeader(
+                      text: 'Do you smoke cannabis ?',
                     ),
                   ),
-                ),
-              TSectionFooterButtons(
-                activateDisabled:
-                    state.smokeCannabis.isNotEmpty ? false : true,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const FifthTeenDetailScreen(),
+                  const SizedBox(height: TSizes.spaceBtwSections),
+                  TRadioListAnswerBox(
+                    items: widget.canabisStatus,
+                    selectedValue: selectedIndex,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedIndex = value; // Update the selected index
+                        context.read<SurveyFormBloc>().add(
+                            SurveyFormSmokeCannabisEvent(
+                                widget.canabisStatus[value]));
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: TSizes.spaceBtwSections),
+            if (showSecondSection)
+              Flexible(
+                flex: 2,
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      width: double.infinity,
+                      child: TQuestionHeader(
+                        text: 'How often do you smoke cannabis ?',
+                      ),
                     ),
-                  );
-                },
-              )
-            ],
-          ),
-        );
+                    const SizedBox(height: TSizes.spaceBtwSections),
+                    TRadioListAnswerBox(
+                      items: widget.canabisStatusDuration,
+                      selectedValue: selectedIndex2,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedIndex2 = value; // Update the selected index
+                          context.read<SurveyFormBloc>().add(
+                              SurveyFormOftenSmokeCannabis(
+                                  widget.canabisStatusDuration[value]));
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            TSectionFooterButtons(
+              activateDisabled: state.smokeCannabis.isNotEmpty &&
+                      (state.smokeCannabis == 'No' ||
+                          (state.smokeCannabis == 'Yes' &&
+                              selectedIndex2 != null))
+                  ? false
+                  : true,
+              onPressed: () {
+                context
+                    .read<SurveyFormBloc>()
+                    .add(SurveyFormCurrentPage(state.currentPage + 1));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FifthTeenDetailScreen(),
+                  ),
+                );
+              },
+            )
+          ],
+        ));
       },
     );
   }

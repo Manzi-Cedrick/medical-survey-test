@@ -51,8 +51,12 @@ class _EleventhDetailScreenState extends State<EleventhDetailScreen> {
                 },
               ),
               TSectionFooterButtons(
-                activateDisabled: state.siblingsNumberStatus.isNotEmpty ? false : true,
+                activateDisabled:
+                    state.siblingsNumberStatus.isNotEmpty ? false : true,
                 onPressed: () {
+                  context
+                      .read<SurveyFormBloc>()
+                      .add(SurveyFormCurrentPage(state.currentPage + 1));
                   Navigator.push(
                     context,
                     MaterialPageRoute(

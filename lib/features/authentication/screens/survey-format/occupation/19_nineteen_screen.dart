@@ -15,12 +15,15 @@ class NineTeenDetailScreen extends StatefulWidget {
 }
 
 class _NineTeenDetailScreenState extends State<NineTeenDetailScreen> {
+  bool hasNavigated = false; // Flag to track if navigation has occurred
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SurveyFormBloc, SurveyFormState>(
       listener: (context, state) {
         // Check for the success status and navigate to the next screen
-        if (state.status == TSurveyFormStatus.success) {
+        if (state.status == TSurveyFormStatus.success && !hasNavigated) {
+          hasNavigated = true; // Set the flag to true after navigation
           Future.delayed(const Duration(seconds: 2), () {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
@@ -55,14 +58,14 @@ class _NineTeenDetailScreenState extends State<NineTeenDetailScreen> {
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
               TSectionFooterButtons(
-                activateDisabled: state.additionDescription.isNotEmpty
-                    ? false
-                    : true,
+                activateDisabled:
+                    state.additionDescription.isNotEmpty ? false : true,
                 onPressed: () {
+                  context
+                      .read<SurveyFormBloc>()
+                      .add(SurveyFormCurrentPage(state.currentPage + 1));
                   context.read<SurveyFormBloc>().add(
-                        const SurveyFormSubmitEvent(
-                          TSurveyFormStatus.success
-                        ),
+                        const SurveyFormSubmitEvent(TSurveyFormStatus.success),
                       );
                 },
               )

@@ -51,8 +51,12 @@ class _TwelvethDetailScreenState extends State<TwelvethDetailScreen> {
                 },
               ),
               TSectionFooterButtons(
-                activateDisabled: state.parentsDivorced.isNotEmpty ? false : true,
+                activateDisabled:
+                    state.parentsDivorced.isNotEmpty ? false : true,
                 onPressed: () {
+                  context
+                      .read<SurveyFormBloc>()
+                      .add(SurveyFormCurrentPage(state.currentPage + 1));
                   Navigator.push(
                     context,
                     MaterialPageRoute(

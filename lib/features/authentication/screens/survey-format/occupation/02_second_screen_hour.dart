@@ -53,8 +53,7 @@ class _SecondHourDetailScreenState extends State<SecondHourDetailScreen> {
                 selectedValue: selectedIndex,
                 onChanged: (value) {
                   setState(() {
-                    selectedIndex =
-                        value; // Update the selected index
+                    selectedIndex = value; // Update the selected index
                     context.read<SurveyFormBloc>().add(
                           SurveyFormOccupationHrsEvent(
                             widget.occupationsHrs[value],
@@ -64,9 +63,11 @@ class _SecondHourDetailScreenState extends State<SecondHourDetailScreen> {
                 },
               ),
               TSectionFooterButtons(
-                activateDisabled:
-                    state.occupationHrs.isNotEmpty ? false : true,
+                activateDisabled: state.occupationHrs.isNotEmpty ? false : true,
                 onPressed: () {
+                  context
+                      .read<SurveyFormBloc>()
+                      .add(SurveyFormCurrentPage(state.currentPage + 1));
                   Navigator.push(
                     context,
                     MaterialPageRoute(

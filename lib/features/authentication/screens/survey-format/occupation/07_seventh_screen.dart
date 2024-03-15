@@ -49,21 +49,23 @@ class _SeventhDetailScreen extends State<SeventhDetailScreen> {
                     selectedIndex = value; // Update the selected index
                     context.read<SurveyFormBloc>().add(
                           SurveyFormLifeStatusWithRoommatesEvent(
-                            widget.lifeStatus[value]
-                          ),
+                              widget.lifeStatus[value]),
                         );
                   });
                 },
               ),
               TSectionFooterButtons(
-                activateDisabled: state.lifeStatusWithRoommates.isNotEmpty ? false : true,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const EightDetailScreen()));
-                }
-              )
+                  activateDisabled:
+                      state.lifeStatusWithRoommates.isNotEmpty ? false : true,
+                  onPressed: () {
+                    context
+                        .read<SurveyFormBloc>()
+                        .add(SurveyFormCurrentPage(state.currentPage + 1));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const EightDetailScreen()));
+                  })
             ],
           ),
         );

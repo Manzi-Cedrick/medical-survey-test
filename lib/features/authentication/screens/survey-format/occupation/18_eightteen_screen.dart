@@ -35,8 +35,6 @@ class _EightTeenDetailScreenState extends State<EightTeenDetailScreen> {
     return BlocConsumer<SurveyFormBloc, SurveyFormState>(
       listener: (context, state) {
         // TODO: implement listener
-
-        
       },
       builder: (context, state) {
         return TPrimarySectionLayout(
@@ -61,16 +59,17 @@ class _EightTeenDetailScreenState extends State<EightTeenDetailScreen> {
                       selectedDrugs.add(widget.drugTypes[index]);
                     }
                   }
-                  context
-                      .read<SurveyFormBloc>()
-                      .add(SurveyFormPrescribedMedicationListEvent(selectedDrugs));
+                  context.read<SurveyFormBloc>().add(
+                      SurveyFormPrescribedMedicationListEvent(selectedDrugs));
                 },
               ),
               TSectionFooterButtons(
-                activateDisabled: state.prescribedMedicationList.isNotEmpty
-                    ? false
-                    : true,
+                activateDisabled:
+                    state.prescribedMedicationList.isNotEmpty ? false : true,
                 onPressed: () {
+                  context
+                      .read<SurveyFormBloc>()
+                      .add(SurveyFormCurrentPage(state.currentPage + 1));
                   Navigator.push(
                     context,
                     MaterialPageRoute(

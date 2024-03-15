@@ -31,12 +31,12 @@ class _OccupationDetailScreenState extends State<OccupationDetailScreen> {
         listener: (context, state) {
           if (state.occupation.isNotEmpty &&
               state.occupation.contains('None')) {
-            String occupationsText = 'None should not be selected'; // Convert list to a string
+            String occupationsText =
+                'None should not be selected'; // Convert list to a string
             CustomSnackbar.show(context, occupationsText);
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (_) => const FourthScreenDetail()),
+              MaterialPageRoute(builder: (_) => const FourthScreenDetail()),
             );
           }
         },
@@ -69,7 +69,11 @@ class _OccupationDetailScreenState extends State<OccupationDetailScreen> {
                   },
                 ),
                 TSectionFooterButtons(
+                  activateDisabled: state.occupation.isNotEmpty ? false : true,
                   onPressed: () {
+                    context
+                        .read<SurveyFormBloc>()
+                        .add(SurveyFormCurrentPage(state.currentPage + 1));
                     Navigator.push(
                       context,
                       MaterialPageRoute(

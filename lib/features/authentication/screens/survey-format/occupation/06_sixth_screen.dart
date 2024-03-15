@@ -54,6 +54,9 @@ class _SixthScreenDetail extends State<SixthScreenDetail> {
                         );
 
                     if (widget.houseHoldStatuses[value] == 'Alone') {
+                      context
+                          .read<SurveyFormBloc>()
+                          .add(SurveyFormCurrentPage(state.currentPage + 2));
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -71,6 +74,9 @@ class _SixthScreenDetail extends State<SixthScreenDetail> {
                 onPressed: () {
                   if (selectedIndex != null &&
                       widget.houseHoldStatuses[selectedIndex!] != 'Alone') {
+                    context
+                        .read<SurveyFormBloc>()
+                        .add(SurveyFormCurrentPage(state.currentPage + 1));
                     Navigator.push(
                       context,
                       MaterialPageRoute(

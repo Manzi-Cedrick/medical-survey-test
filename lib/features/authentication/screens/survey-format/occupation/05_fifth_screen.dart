@@ -45,8 +45,7 @@ class _FifthScreenDetailState extends State<FifthScreenDetail> {
                 selectedValue: selectedIndex,
                 onChanged: (value) {
                   setState(() {
-                    selectedIndex =
-                        value; // Update the selected index
+                    selectedIndex = value; // Update the selected index
                     context.read<SurveyFormBloc>().add(
                           SurveyFormAreaStructureEvent(
                             widget.populationStatuses[value],
@@ -56,11 +55,17 @@ class _FifthScreenDetailState extends State<FifthScreenDetail> {
                 },
               ),
               TSectionFooterButtons(
-                activateDisabled: state.areaStructure.isNotEmpty ? false : true,
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => const SixthScreenDetail()));
-                }
-              )
+                  activateDisabled:
+                      state.areaStructure.isNotEmpty ? false : true,
+                  onPressed: () {
+                    context
+                        .read<SurveyFormBloc>()
+                        .add(SurveyFormCurrentPage(state.currentPage + 1));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const SixthScreenDetail()));
+                  })
             ],
           ),
         );

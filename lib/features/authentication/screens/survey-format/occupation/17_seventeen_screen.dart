@@ -47,38 +47,53 @@ class _SevenTeenDetailScreenState extends State<SevenTeenDetailScreen> {
       builder: (context, state) {
         return TPrimarySectionLayout(
           child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.start, // Align children at the start
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              const SizedBox(height: TSizes.spaceBtwSections),
-              const SizedBox(
-                width: double.infinity,
-                child: TQuestionHeader(
-                  text: 'Do you take drugs ?',
+              Flexible(
+                flex: 1,
+                child: Column(
+                  children: [
+                    const SizedBox(height: TSizes.spaceBtwSections),
+                    const SizedBox(
+                      width: double.infinity,
+                      child: TQuestionHeader(
+                        text: 'Do you take drugs ?',
+                      ),
+                    ),
+                    const SizedBox(height: TSizes.spaceBtwSections),
+                    TRadioListAnswerBox(
+                      items: widget.drugStatus,
+                      selectedValue: selectedIndex,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedIndex = value; // Update the selected index
+                          context.read<SurveyFormBloc>().add(
+                              SurveyFormDrugConsumptionEvent(
+                                  widget.drugStatus[value]));
+
+                          if (widget.drugStatus[value] == 'No') {
+                            context.read<SurveyFormBloc>().add(
+                                SurveyFormCurrentPage(state.currentPage + 3));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const EndSurveyScreen(),
+                              ),
+                            );
+                          }
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
-              TRadioListAnswerBox(
-                items: widget.drugStatus,
-                selectedValue: selectedIndex,
-                onChanged: (value) {
-                  setState(() {
-                    selectedIndex = value; // Update the selected index
-                    context.read<SurveyFormBloc>().add(
-                        SurveyFormDrugConsumptionEvent(
-                            widget.drugStatus[value]));
-
-                    if (widget.drugStatus[value] == 'No') {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EndSurveyScreen(),
-                        ),
-                      );
-                    }
-                  });
-                },
-              ),
               if (showSecondSection)
                 Flexible(
+                  flex: 2,
                   child: Column(
                     children: [
                       const SizedBox(
@@ -104,10 +119,16 @@ class _SevenTeenDetailScreenState extends State<SevenTeenDetailScreen> {
                   ),
                 ),
               TSectionFooterButtons(
-                activateDisabled: state.drugConsumption.isNotEmpty
+                activateDisabled: state.drugConsumption.isNotEmpty &&
+                        (state.drugConsumption == 'No' ||
+                            (state.drugConsumption == 'Yes' &&
+                                selectedIndex2 != null))
                     ? false
                     : true,
                 onPressed: () {
+                  context
+                      .read<SurveyFormBloc>()
+                      .add(SurveyFormCurrentPage(state.currentPage + 1));
                   Navigator.push(
                     context,
                     MaterialPageRoute(

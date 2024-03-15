@@ -24,9 +24,7 @@ class _TenthDetailScreenState extends State<TenthDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SurveyFormBloc, SurveyFormState>(
-      listener: (context, state) {
-       
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return TPrimarySectionLayout(
           child: Column(
@@ -51,20 +49,26 @@ class _TenthDetailScreenState extends State<TenthDetailScreen> {
 
                     // if state is None, then navigate to the next screen
                     if (widget.siblingsStatus[value] == 'None') {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const TwelvethDetailScreen(),
-                          ),
-                        );
-                      }
+                      context
+                          .read<SurveyFormBloc>()
+                          .add(SurveyFormCurrentPage(state.currentPage + 2));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TwelvethDetailScreen(),
+                        ),
+                      );
                     }
-                  );
+                  });
                 },
               ),
               TSectionFooterButtons(
-                activateDisabled: state.siblingsNumber.isNotEmpty ? false : true,
+                activateDisabled:
+                    state.siblingsNumber.isNotEmpty ? false : true,
                 onPressed: () {
+                  context
+                      .read<SurveyFormBloc>()
+                      .add(SurveyFormCurrentPage(state.currentPage + 1));
                   Navigator.push(
                     context,
                     MaterialPageRoute(

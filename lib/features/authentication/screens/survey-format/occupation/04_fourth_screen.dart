@@ -63,6 +63,9 @@ class _FourthScreenDetailState extends State<FourthScreenDetail> {
                 activateDisabled:
                     state.physicalActivityDuration.isNotEmpty ? false : true,
                 onPressed: () {
+                  context
+                      .read<SurveyFormBloc>()
+                      .add(SurveyFormCurrentPage(state.currentPage + 1));
                   Navigator.push(context, MaterialPageRoute(builder: (_) {
                     return const FifthScreenDetail();
                   }));
