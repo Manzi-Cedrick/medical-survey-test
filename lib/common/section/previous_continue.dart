@@ -1,41 +1,71 @@
+import 'package:app_test/features/authentication/screens/survey-format/occupation/bloc/survey_form_bloc.dart';
 import 'package:app_test/utils/constants/colors.dart';
 import 'package:app_test/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TSectionFooterButtons extends StatelessWidget {
-  const TSectionFooterButtons({super.key, required this.onPressed, this.activateDisabled = false});
-
+class TSectionFooterButtons extends StatefulWidget {
+  const TSectionFooterButtons(
+      {super.key, required this.onPressed, this.activateDisabled = false});
   final VoidCallback onPressed;
   final bool activateDisabled;
+
+  @override
+  _TSectionFooterButtons createState() => _TSectionFooterButtons();
+}
+
+class _TSectionFooterButtons extends State<TSectionFooterButtons> {
+  late int currentPageIndex; // Initialize currentPageIndex here
+
+  @override
+  void initState() {
+    super.initState();
+    final state = context.read<SurveyFormBloc>().state;
+    currentPageIndex = state.currentPage > 0 ? state.currentPage - 1 : 1;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
+        BlocConsumer<SurveyFormBloc, SurveyFormState>(
+          listener: (context, state) {
+            // TODO: implement listener
+            // currentPageIndex = state.currentPage - 1;
           },
-          style: ElevatedButton.styleFrom(
-              backgroundColor: TColors.lightGrey,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              side: const BorderSide(color: Colors.transparent)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: TSizes.lg),
-            child: Text(
-              'Previous',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .apply(color: TColors.textSecondary),
-            ),
-          ),
+          builder: (context, state) {
+            return ElevatedButton(
+              onPressed: () {
+                context
+                    .read<SurveyFormBloc>()
+                    .add(SurveyFormCurrentPage(currentPageIndex));
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: TColors.lightGrey,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  side: const BorderSide(color: Colors.transparent)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: TSizes.lg),
+                child: Text(
+                  'Previous',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .apply(color: TColors.textSecondary),
+                ),
+              ),
+            );
+          },
         ),
         ElevatedButton(
-          onPressed: activateDisabled ? null : onPressed ,
+          onPressed: widget.activateDisabled ? null : widget.onPressed,
           style: ElevatedButton.styleFrom(
-              backgroundColor: activateDisabled ? TColors.grey.withOpacity(0.5) : TColors.primary,
+              backgroundColor: widget.activateDisabled
+                  ? TColors.grey.withOpacity(0.5)
+                  : TColors.primary,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               side: BorderSide.none),
@@ -43,10 +73,9 @@ class TSectionFooterButtons extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: TSizes.lg),
             child: Text(
               'Continue',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .apply(color: activateDisabled ? TColors.dark : TColors.white),
+              style: Theme.of(context).textTheme.bodySmall!.apply(
+                  color:
+                      widget.activateDisabled ? TColors.dark : TColors.white),
             ),
           ),
         ),
