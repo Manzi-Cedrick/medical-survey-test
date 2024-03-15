@@ -1,7 +1,5 @@
-import 'package:app_test/features/authentication/screens/survey-format/occupation/13_thirteen_screen.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 part 'survey_form_event.dart';
 part 'survey_form_state.dart';
 
@@ -23,7 +21,8 @@ class SurveyFormBloc extends Bloc<SurveyFormEvent, SurveyFormState> {
     });
     on<SurveyFormPhysicalActivityDurationEvent>((event, emit) {
       // print(event.physicalActivityDuration);
-      emit(state.copyWith(physicalActivityDuration: event.physicalActivityDuration));
+      emit(state.copyWith(
+          physicalActivityDuration: event.physicalActivityDuration));
     });
     on<SurveyFormAreaStructureEvent>((event, emit) {
       emit(state.copyWith(areaStructure: event.areaStructure));
@@ -32,15 +31,18 @@ class SurveyFormBloc extends Bloc<SurveyFormEvent, SurveyFormState> {
       emit(state.copyWith(livingStatus: event.livingStatus));
     });
     on<SurveyFormLifeStatusWithRoommatesEvent>((event, emit) {
-      emit(state.copyWith(lifeStatusWithRoommates: event.lifeStatusWithRoommates));
+      emit(state.copyWith(
+          lifeStatusWithRoommates: event.lifeStatusWithRoommates));
     });
     on<SurveyFormCloseWithFamilyRelationshipEvent>((event, emit) {
       print(event.closeWithFamilyRelationship);
-      emit(state.copyWith(closeWithFamilyRelationship: event.closeWithFamilyRelationship));
+      emit(state.copyWith(
+          closeWithFamilyRelationship: event.closeWithFamilyRelationship));
     });
     on<SurveyFormOftenInteractionWithFamily>((event, emit) {
       print(event.oftenInteractionWithFamily);
-      emit(state.copyWith(oftenInteractionWithFamily: event.oftenInteractionWithFamily));
+      emit(state.copyWith(
+          oftenInteractionWithFamily: event.oftenInteractionWithFamily));
     });
     on<SurveyFormCommonRebutalsEvent>((event, emit) {
       emit(state.copyWith(commonRebutals: event.commonRebutals));
@@ -52,7 +54,8 @@ class SurveyFormBloc extends Bloc<SurveyFormEvent, SurveyFormState> {
       emit(state.copyWith(siblingsNumberStatus: event.siblingsNumberStatus));
     });
     on<SurveyFormPersonalRelationshipStatusEvent>((event, emit) {
-      emit(state.copyWith(personalRelationshipStatus: event.personalRelationshipStatus));
+      emit(state.copyWith(
+          personalRelationshipStatus: event.personalRelationshipStatus));
     });
     on<SurveyFormParentsDivorcedEvent>((event, emit) {
       emit(state.copyWith(parentsDivorced: event.parentsDivorced));
@@ -82,11 +85,16 @@ class SurveyFormBloc extends Bloc<SurveyFormEvent, SurveyFormState> {
       emit(state.copyWith(prescribedMedication: event.prescribedMedication));
     });
     on<SurveyFormPrescribedMedicationListEvent>((event, emit) {
-      emit(state.copyWith(prescribedMedicationList: event.prescribedMedicationList));
+      emit(state.copyWith(
+          prescribedMedicationList: event.prescribedMedicationList));
     });
     on<SurveyFormAdditionDescriptionEvent>((event, emit) {
       emit(state.copyWith(additionDescription: event.additionDescription));
     });
+    on<SurveyFormCurrentPage>((event, emit) {
+      emit(state.copyWith(currentPage: event.currentPage));
+    });
+
     on<SurveyFormSubmitEvent>((event, emit) {
       print(state.toString());
       emit(state.copyWith(status: event.status));
