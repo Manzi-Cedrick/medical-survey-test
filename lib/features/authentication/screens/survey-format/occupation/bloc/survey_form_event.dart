@@ -227,6 +227,16 @@ class SurveyFormDateTimeEvent extends SurveyFormEvent {
   List<Object> get props => [dateTime];
 }
 
+class SurveyFormCurrentPage extends SurveyFormEvent {
+  final int currentPage;
+
+  const SurveyFormCurrentPage(this.currentPage);
+
+  @override
+  List<Object> get props => [currentPage];
+}
+
+
 class SurveyFormSubmitEvent extends SurveyFormEvent {
   final TSurveyFormStatus status;
   const SurveyFormSubmitEvent(this.status);
