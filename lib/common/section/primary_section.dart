@@ -24,7 +24,7 @@ class TPrimarySectionLayout extends StatelessWidget {
             },
             builder: (context, state) {
               final currentPageIndex = state.currentPage;
-              print(state.currentPage);
+              // print(state.currentPage);
               int totalPages = 21;
               progress = (currentPageIndex) / totalPages;
               return LinearProgressIndicator(

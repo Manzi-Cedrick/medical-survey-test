@@ -45,7 +45,7 @@ class _EightDetailScreen extends State<EightDetailScreen> {
           if (state.closeWithFamilyRelationship == 'No') {
             setState(() {
               showSecondSection = true;
-              print(showSecondSection);
+              // print(showSecondSection);
             });
           } else {
             setState(() {

@@ -26,7 +26,7 @@ class _FifthScreenDetailState extends State<FifthScreenDetail> {
     return BlocConsumer<SurveyFormBloc, SurveyFormState>(
       listener: (context, state) {
         // TODO: implement listener
-        print(state.areaStructure);
+        // print(state.areaStructure);
       },
       builder: (context, state) {
         return TPrimarySectionLayout(
