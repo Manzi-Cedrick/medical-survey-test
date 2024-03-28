@@ -3,6 +3,7 @@ import 'package:app_test/common/section/section_header.dart';
 import 'package:app_test/common/style/spacing_style.dart';
 import 'package:app_test/features/authentication/screens/auth/bloc/auth_bloc_bloc.dart';
 import 'package:app_test/features/authentication/screens/auth/login/login_screen.dart';
+import 'package:app_test/features/authentication/screens/auth/model/user_model.dart';
 import 'package:app_test/utils/constants/colors.dart';
 import 'package:app_test/utils/constants/image_strings.dart';
 import 'package:app_test/utils/constants/sizes.dart';
@@ -85,7 +86,7 @@ class _CreateAccountWithPhoneNumber
                               onPressed: () {
                                 context.read<AuthBlocBloc>().add(
                                     const AuthBlocSubmitEvent(
-                                        AuthBlocStatus.success));
+                                        AuthBlocStatus.success, UserModel()));
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: TColors.primary,

@@ -43,11 +43,19 @@ class AuthBlocTelephoneEvent extends AuthBlocEvent {
   List<Object> get props => [telephone];
 }
 
-class AuthBlocSubmitEvent extends AuthBlocEvent {
-  const AuthBlocSubmitEvent(this.status);
+class AuthBlocTypeEvent extends AuthBlocEvent {
+  const AuthBlocTypeEvent(this.type);
+  final AuthType type;
 
+  @override
+  List<Object> get props => [type];
+}
+
+class AuthBlocSubmitEvent extends AuthBlocEvent {
+  const AuthBlocSubmitEvent(this.status, this.userModel);
+  final UserModel userModel;
   final AuthBlocStatus status;
 
   @override
-  List<Object> get props => [status];
+  List<Object> get props => [status,userModel];
 }

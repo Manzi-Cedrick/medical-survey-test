@@ -1,6 +1,7 @@
 import 'package:app_test/features/authentication/screens/auth/bloc/auth_bloc_bloc.dart';
 import 'package:app_test/features/authentication/screens/auth/create-account-phonenumber/create_account_phone_number.dart';
 import 'package:app_test/features/authentication/screens/auth/login/login_screen.dart';
+import 'package:app_test/features/authentication/screens/auth/model/user_model.dart';
 import 'package:app_test/features/authentication/screens/survey-format/occupation/starter_screen_dob.dart';
 import 'package:app_test/utils/constants/colors.dart';
 import 'package:app_test/utils/constants/sizes.dart';
@@ -39,7 +40,6 @@ class _TStructuredFormState extends State<TStructuredForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBlocBloc, AuthBlocState>(
       listener: (context, state) {
-        print(state);
         if (state.status == AuthBlocStatus.success &&
             _formKey.currentState!.validate()) {
           _formKey.currentState!.reset();
@@ -103,7 +103,7 @@ class _TStructuredFormState extends State<TStructuredForm> {
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         context.read<AuthBlocBloc>().add(
-                              const AuthBlocSubmitEvent(AuthBlocStatus.success),
+                              const AuthBlocSubmitEvent(AuthBlocStatus.success, UserModel()),
                             );
                       }
                     },
