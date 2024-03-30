@@ -1,4 +1,4 @@
-import 'package:app_test/features/chatbot/widgets/bubble.dart';
+import 'package:app_test/features/journal/widgets/bubble.dart';
 import 'package:app_test/features/chatbot/widgets/chat_controller.dart';
 import 'package:app_test/features/chatbot/widgets/chat_dummy.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class _CustomJournalState extends State<CustomJournal> {
                       controller: context.read<ChatController>().scrollController,
                       itemCount: chatList.length,
                       itemBuilder: (context, index) {
-                        return Bubble(chat: chatList[index]);
+                        return JournalBubble(chat: chatList[index]);
                       },
                     );
                   },

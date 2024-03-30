@@ -1,5 +1,5 @@
 import 'package:app_test/common/style/spacing_style.dart';
-import 'package:app_test/features/authentication/screens/survey-format/occupation/bloc/survey_form_bloc.dart';
+import 'package:app_test/features/survey-format/bloc/survey_form_bloc.dart';
 import 'package:app_test/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,17 +15,13 @@ class TPrimarySectionLayout extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1),
+          preferredSize: const Size.fromHeight(1),
           child: BlocConsumer<SurveyFormBloc, SurveyFormState>(
             listener: (context, state) {
-              // TODO: implement listener
-
-              // state.currentPage;
             },
             builder: (context, state) {
               final currentPageIndex = state.currentPage;
-              // print(state.currentPage);
-              int totalPages = 21;
+              int totalPages = 20;
               progress = (currentPageIndex) / totalPages;
               return LinearProgressIndicator(
                 value: progress,

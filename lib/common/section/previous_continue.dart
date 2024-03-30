@@ -1,4 +1,4 @@
-import 'package:app_test/features/authentication/screens/survey-format/occupation/bloc/survey_form_bloc.dart';
+import 'package:app_test/features/survey-format/bloc/survey_form_bloc.dart';
 import 'package:app_test/utils/constants/colors.dart';
 import 'package:app_test/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
@@ -34,15 +34,12 @@ class _TSectionFooterButtons extends State<TSectionFooterButtons> {
       children: [
         BlocConsumer<SurveyFormBloc, SurveyFormState>(
           listener: (context, state) {
-            // TODO: implement listener
-            // currentPageIndex = state.currentPage - 1;
           },
           builder: (context, state) {
             return ElevatedButton(
               onPressed: () {
                 if (currentPageIndex > 0) {
                   currentPageIndex -= 1;
-                  // currentPageIncrement = 1;
                   context
                       .read<SurveyFormBloc>()
                       .add(const SurveyFormIncrementCurrentPage(1));
@@ -73,7 +70,6 @@ class _TSectionFooterButtons extends State<TSectionFooterButtons> {
         ),
         BlocConsumer<SurveyFormBloc, SurveyFormState>(
           listener: (context, state) {
-            // TODO: implement listener
           },
           builder: (context, state) {
             return ElevatedButton(
@@ -88,7 +84,7 @@ class _TSectionFooterButtons extends State<TSectionFooterButtons> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: TSizes.lg),
                 child: Text(
-                  state.currentPage == 20 ? 'Submit Info' : 'Continue',
+                  state.currentPage == 19 ? 'Submit Info' : 'Continue',
                   style: Theme.of(context).textTheme.bodySmall!.apply(
                       color: widget.activateDisabled
                           ? TColors.dark

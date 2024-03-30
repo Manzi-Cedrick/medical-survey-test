@@ -1,4 +1,3 @@
-import 'package:app_test/common/style/appbar_style.dart';
 import 'package:app_test/features/scenarios/action_tab.dart';
 import 'package:app_test/features/scenarios/dilemmas_tab.dart';
 import 'package:app_test/utils/constants/colors.dart';

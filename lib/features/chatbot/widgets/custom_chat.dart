@@ -1,4 +1,5 @@
 import 'package:app_test/features/chatbot/widgets/bubble.dart';
+import 'package:app_test/features/journal/widgets/bubble.dart';
 import 'package:app_test/features/chatbot/widgets/chat_controller.dart';
 import 'package:app_test/features/chatbot/widgets/chat_dummy.dart';
 import 'package:app_test/utils/constants/colors.dart';
