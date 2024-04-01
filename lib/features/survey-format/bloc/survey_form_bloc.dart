@@ -140,7 +140,7 @@ class SurveyFormBloc extends Bloc<SurveyFormEvent, SurveyFormState> {
             await surveyRepository.saveSurvey(surveyModel);
         final String message = response['message'];
         final SurveyModel surveyResponse = response['survey'];
-        CustomSnackbar.show(event.context, message);
+        CustomSnackbar.show(event.context, message, 'Success');
         Future.delayed(const Duration(seconds: 2), () {
           Navigator.push(
             event.context,
@@ -149,7 +149,7 @@ class SurveyFormBloc extends Bloc<SurveyFormEvent, SurveyFormState> {
         });
         emit(state.copyWith(status: TSurveyFormStatus.success));
       } else {
-        CustomSnackbar.show(event.context, 'Survey Failed !');
+        CustomSnackbar.show(event.context, 'Survey Failed !', 'Error');
         emit(state.copyWith(status: TSurveyFormStatus.failure));
       }
     });

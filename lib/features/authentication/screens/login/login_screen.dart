@@ -7,6 +7,7 @@ import 'package:app_test/utils/constants/colors.dart';
 import 'package:app_test/utils/constants/image_strings.dart';
 import 'package:app_test/utils/constants/sizes.dart';
 import 'package:app_test/utils/constants/text_strings.dart';
+import 'package:app_test/utils/theme/widget_themes/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
@@ -55,6 +56,9 @@ class _SignIn extends State<SignIn> {
                       child: Column(
                         children: [
                           TextFormField(
+                            validator: (value) => value!.isEmpty
+                                ? 'Please enter your email'
+                                : null,
                             decoration: const InputDecoration(
                                 prefixIcon: Icon(Iconsax.direct_right),
                                 labelText: TTexts.email),
@@ -65,6 +69,9 @@ class _SignIn extends State<SignIn> {
                           const SizedBox(
                               height: TSizes.spaceBtwInputFields / 2),
                           TextFormField(
+                            validator: (value) => value!.isEmpty
+                                ? 'Please enter your password'
+                                : null,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Iconsax.password_check),
                               labelText: TTexts.password,
@@ -118,6 +125,8 @@ class _SignIn extends State<SignIn> {
                                                       AuthBlocStatus.loading,
                                                       context),
                                                 );
+                                          } else {
+                                            CustomSnackbar.show(context, 'Add valid inputs', 'Error');
                                           }
                                         },
                                         style: ElevatedButton.styleFrom(

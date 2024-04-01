@@ -59,7 +59,7 @@ class _OccupationDetailScreenState extends State<OccupationDetailScreen> {
                     if (selectedOccupations.contains('None')) {
                       String occupationsText =
                           'None should not be selected'; // Convert list to a string
-                      CustomSnackbar.show(context, occupationsText);
+                      CustomSnackbar.show(context, occupationsText, 'Warning');
                       context
                           .read<SurveyFormBloc>()
                           .add(SurveyFormCurrentPage(state.currentPage + 2));
@@ -81,7 +81,7 @@ class _OccupationDetailScreenState extends State<OccupationDetailScreen> {
                     if (state.occupation.contains('None') || checkList[occupations.indexOf('None')] == true) {
                       String occupationsText =
                           'None should not be selected'; // Convert list to a string
-                      CustomSnackbar.show(context, occupationsText);
+                      CustomSnackbar.show(context, occupationsText, 'Warning');
                       context
                           .read<SurveyFormBloc>()
                           .add(SurveyFormCurrentPage(state.currentPage + 2));

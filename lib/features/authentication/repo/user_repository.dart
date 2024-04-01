@@ -17,11 +17,9 @@ class UserRepository {
 
     final responseData = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      print(response.body);
-      final userData = responseData['data'];
       UserModel userModel = const UserModel();
-      if (userData != null) {
-        userModel = UserModel.fromJson(userData);
+      if (responseData['data'] != null) {
+        userModel = UserModel.fromJson(responseData['data']);
       } else {
         return {'user': null, 'message': 'User already exists'};
       }
@@ -45,11 +43,11 @@ class UserRepository {
 
     final Map<String, dynamic> responseData = jsonDecode(response.body);
     final String? message = responseData['message'];
-    if (response.statusCode == 200) {
-      final String token = responseData['token'];
+    final String token = responseData['token'];
+    if (responseData['data'] != null) {
       UserModel userModel = const UserModel();
       if (responseData['data'] != null) {
-        userModel = UserModel.fromJson(responseData['data'].first);
+        userModel = UserModel.fromJson(responseData['data']);
       } else {
         return {
           'token': null,

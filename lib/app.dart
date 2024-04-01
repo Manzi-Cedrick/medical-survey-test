@@ -17,7 +17,7 @@ class App extends StatelessWidget {
           return const CircularProgressIndicator();
         } else {
           final bool hasSessionToken = snapshot.data ?? false;
-          final Widget initialRoute = hasSessionToken ? const DobScreen() : const SignIn();
+          // final Widget initialRoute = hasSessionToken ? const DobScreen() : const SignIn();
 
           return MaterialApp(
             title: TTexts.appName,
@@ -25,7 +25,7 @@ class App extends StatelessWidget {
             theme: TAppTheme.lightTheme,
             darkTheme: TAppTheme.darkTheme,
             debugShowCheckedModeBanner: false,
-            home: initialRoute,
+            home: SignIn(),
           );
         }
       },

@@ -48,47 +48,46 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
             state.email.isNotEmpty &&
             state.password.isNotEmpty) {
           if (state.type == AuthType.register) {
-            Map<String, dynamic> userResponse =
+            final Map<String, dynamic> userResponse =
                 await userRepository.registerUser(user);
-            print(userResponse);
-            final UserModel userModel = userResponse['user'];
-            final String message = userResponse['message'];
-            print(message);
-            if (userModel.email == user.email) {
+            if (userResponse['user'] != null) {
+              CustomSnackbar.show(
+                  event.context, userResponse['message'], 'Success');
               emit(state.copyWith(status: AuthBlocStatus.success));
-              CustomSnackbar.show(event.context, message);
               Future.delayed(const Duration(seconds: 2), () {
                 Navigator.push(
                   event.context,
                   MaterialPageRoute(builder: (context) => const SignIn()),
                 );
               });
-            } else if (message == 'User already exists') {
+            } else {
+              CustomSnackbar.show(
+                  event.context, userResponse['message'], 'Error');
               emit(state.copyWith(status: AuthBlocStatus.failure));
-              CustomSnackbar.show(event.context, message);
             }
-            emit(state.copyWith(status: AuthBlocStatus.failure));
-            CustomSnackbar.show(event.context, message);
           } else if (state.type == AuthType.login &&
               state.email.isNotEmpty &&
               state.password.isNotEmpty) {
-            Map<String, dynamic> loginResponse =
+            final Map<String, dynamic> loginResponse =
                 await userRepository.loginUser(user);
-            final String token = loginResponse['token'];
-            final UserModel userModel = loginResponse['user'];
-            final String message = loginResponse['message'];
-            print(await loginResponse);
-            await userRepository.storeToken(token);
-            await userRepository.storeUser(userModel);
-
-            CustomSnackbar.show(event.context, message);
-            Future.delayed(const Duration(seconds: 2), () {
-              Navigator.push(
-                event.context,
-                MaterialPageRoute(builder: (context) => const DobScreen()),
-              );
-            });
-            emit(state.copyWith(status: AuthBlocStatus.success));
+            if (loginResponse['token'] != null &&
+                loginResponse['user'] != null) {
+              CustomSnackbar.show(
+                  event.context, loginResponse['message'], 'Success');
+              await userRepository.storeToken(loginResponse['token']);
+              await userRepository.storeUser(loginResponse['user']);
+              Future.delayed(const Duration(seconds: 2), () {
+                Navigator.push(
+                  event.context,
+                  MaterialPageRoute(builder: (context) => const DobScreen()),
+                );
+              });
+              emit(state.copyWith(status: AuthBlocStatus.success));
+            } else {
+              CustomSnackbar.show(
+                  event.context, loginResponse['message'], 'Error');
+              emit(state.copyWith(status: AuthBlocStatus.failure));
+            }
           }
         }
       } catch (e) {
