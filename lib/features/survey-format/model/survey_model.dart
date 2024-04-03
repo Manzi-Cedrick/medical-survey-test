@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 class SurveyModel extends Equatable {
   final String? userId;
   final bool? isCompleted;
+  final int? currentPage;
   final String? dateTime;
   final List<String>? occupation;
   final String? occupationHrs;
@@ -53,6 +54,7 @@ class SurveyModel extends Equatable {
     this.prescribedMedicationList,
     this.additionDescription,
     this.id,
+    this.currentPage
   });
 
   @override
@@ -81,6 +83,7 @@ class SurveyModel extends Equatable {
         prescribedMedication,
         prescribedMedicationList,
         additionDescription,
+        currentPage,
         id,
       ];
 
@@ -94,6 +97,7 @@ class SurveyModel extends Equatable {
     return SurveyModel(
       userId: json['userId'],
       isCompleted: json['isCompleted'],
+      currentPage: json['currentPage'],
       dateTime: json['dateTime'],
       occupation: occupation,
       occupationHrs: json['occupationHrs'],
@@ -124,6 +128,7 @@ class SurveyModel extends Equatable {
     return {
       'userId': userId,
       'isCompleted': isCompleted,
+      'currentPage': currentPage,
       'dateTime': dateTime,
       'occupation': occupation,
       'occupationHrs': occupationHrs,
@@ -153,6 +158,7 @@ class SurveyModel extends Equatable {
   SurveyModel copyWith({
     String? userId,
     bool? isCompleted,
+    int? currentPage,
     String? dateTime,
     List<String>? occupation,
     String? occupationHrs,
@@ -180,6 +186,7 @@ class SurveyModel extends Equatable {
     return SurveyModel(
       userId: userId ?? this.userId,
       isCompleted: isCompleted ?? this.isCompleted,
+      currentPage: currentPage ?? this.currentPage,
       dateTime: dateTime ?? this.dateTime,
       occupation: occupation ?? this.occupation,
       occupationHrs: occupationHrs ?? this.occupationHrs,

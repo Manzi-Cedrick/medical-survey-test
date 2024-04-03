@@ -147,7 +147,34 @@ class SurveyFormState extends Equatable {
 }
 
 final class SurveyFormInitial extends SurveyFormState {
-  SurveyFormInitial()
+  SurveyFormInitial(
+      {DateTime? dateTime,
+      List<String>? occupation,
+      String? occupationHrs,
+      String? physicalActivityDuration,
+      String? areaStructure,
+      String? livingStatus,
+      String? lifeStatusWithRoommates,
+      String? closeWithFamilyRelationship,
+      String? oftenInteractionWithFamily,
+      String? commonRebutals,
+      String? siblingsNumber,
+      String? siblingsNumberStatus,
+      String? personalRelationshipStatus,
+      String? smokeCannabis,
+      String? oftenSmokeCannabis,
+      String? drinkAlcohol,
+      String? oftenDrinkAlcohol,
+      String? drugConsumption,
+      String? prescribedMedication,
+      List<String>? prescribedMedicationList,
+      String? additionDescription,
+      String? parentsDivorced,
+      TSurveyFormStatus? status,
+      int? currentPage,
+      int? currentIncrement
+      }
+  )
       : super(
           dateTime: DateTime.now(),
           occupation: [],

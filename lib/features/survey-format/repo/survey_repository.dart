@@ -56,6 +56,7 @@ class SurveyRepository {
     );
 
     if (response.statusCode == 200) {
+      print(response.body);
       return SurveyModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to get survey');

@@ -16,8 +16,40 @@ class SurveyFormBloc extends Bloc<SurveyFormEvent, SurveyFormState> {
   final SurveyRepository surveyRepository;
   final UserRepository userRepository = UserRepository();
   SurveyFormBloc(this.surveyRepository) : super(SurveyFormInitial()) {
-    on<SurveyFormStart>((event, emit) {
-      emit(SurveyFormInitial());
+    on<SurveyFormStart>((event, emit) async {
+      final String surveyId = await userRepository.getSurveyId();
+      final int currentPage = await userRepository.getCurrentPage();
+      SurveyModel surveyModel = await surveyRepository.getSurvey(surveyId);
+      print('On Start SurveyModel: $surveyModel');
+      if (surveyModel != null) {
+        emit(SurveyFormInitial(
+          dateTime: DateTime.parse(surveyModel.dateTime ?? ''),
+          occupation: surveyModel.occupation,
+          currentPage: currentPage,
+          occupationHrs: surveyModel.occupationHrs,
+          physicalActivityDuration: surveyModel.physicalActivityDuration,
+          areaStructure: surveyModel.areaStructure,
+          livingStatus: surveyModel.livingStatus,
+          lifeStatusWithRoommates: surveyModel.lifeStatusWithRoommates,
+          closeWithFamilyRelationship: surveyModel.closeWithFamilyRelationship,
+          oftenInteractionWithFamily: surveyModel.oftenInteractionWithFamily,
+          commonRebutals: surveyModel.commonRebutals,
+          siblingsNumber: surveyModel.siblingsNumber,
+          siblingsNumberStatus: surveyModel.siblingsNumberStatus,
+          personalRelationshipStatus: surveyModel.personalRelationshipStatus,
+          smokeCannabis: surveyModel.smokeCannabis,
+          oftenSmokeCannabis: surveyModel.oftenSmokeCannabis,
+          drinkAlcohol: surveyModel.drinkAlcohol,
+          oftenDrinkAlcohol: surveyModel.oftenDrinkAlcohol,
+          drugConsumption: surveyModel.drugConsumption,
+          parentsDivorced: surveyModel.parentsDivorced,
+          prescribedMedication: surveyModel.prescribedMedication,
+          prescribedMedicationList: surveyModel.prescribedMedicationList,
+          additionDescription: surveyModel.additionDescription,
+        ));
+      } else {
+        emit(SurveyFormInitial());
+      }
     });
     on<SurveyFormDateTimeEvent>((event, emit) {
       // print(state.dateTime);
@@ -112,6 +144,7 @@ class SurveyFormBloc extends Bloc<SurveyFormEvent, SurveyFormState> {
         final surveyModel = SurveyModel(
           userId: userFromStorage.id,
           isCompleted: true,
+          currentPage: state.currentPage,
           dateTime: formattedDate,
           occupation: state.occupation,
           occupationHrs: state.occupationHrs,

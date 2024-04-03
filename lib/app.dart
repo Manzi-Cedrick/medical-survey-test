@@ -1,6 +1,7 @@
 import 'package:app_test/features/authentication/repo/user_repository.dart';
 import 'package:app_test/features/authentication/screens/login/login_screen.dart';
 import 'package:app_test/features/survey-format/screen/starter_screen_dob.dart';
+import 'package:app_test/switch_screen.dart';
 import 'package:app_test/utils/constants/text_strings.dart';
 import 'package:app_test/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class App extends StatelessWidget {
           return const CircularProgressIndicator();
         } else {
           final bool hasSessionToken = snapshot.data ?? false;
-          // final Widget initialRoute = hasSessionToken ? const DobScreen() : const SignIn();
+          final Widget initialRoute = hasSessionToken ? SwitchScreen() : const SignIn();
 
           return MaterialApp(
             title: TTexts.appName,
@@ -25,7 +26,7 @@ class App extends StatelessWidget {
             theme: TAppTheme.lightTheme,
             darkTheme: TAppTheme.darkTheme,
             debugShowCheckedModeBanner: false,
-            home: SignIn(),
+            home: initialRoute,
           );
         }
       },

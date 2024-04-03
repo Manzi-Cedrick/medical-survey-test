@@ -40,10 +40,17 @@ class UserRepository {
       },
       body: jsonEncode(user.toJson()),
     );
+    print('Hello login user !');
 
     final Map<String, dynamic> responseData = jsonDecode(response.body);
     final String? message = responseData['message'];
     final String token = responseData['token'];
+    print(responseData);
+    final int currentPage = responseData['currentPage'];
+    final String surveyId = responseData['surveyId'];
+    print('Hello login currentPage !');
+    storeCurrentPage(currentPage);
+    storeSurveyId(surveyId);
     if (responseData['data'] != null) {
       UserModel userModel = const UserModel();
       if (responseData['data'] != null) {
@@ -120,6 +127,29 @@ class UserRepository {
     prefs.setString('user', jsonEncode(user.toJson()));
   }
 
+  // Store the current page
+  Future<void> storeCurrentPage(int currentPage) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('currentPage', currentPage);
+  }
+
+  // Get the current page
+  Future<int> getCurrentPage() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('currentPage') ?? 0;
+  }
+
+  // Store the surveyId
+  Future<void> storeSurveyId(String surveyId) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('surveyId', surveyId);
+  }
+
+  // Get the surveyId
+  Future<String> getSurveyId() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('surveyId') ?? '';
+  }
   Future<UserModel?> getUserFromStorage() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? userString = prefs.getString('user');
@@ -134,7 +164,9 @@ class UserRepository {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('token');
     final String? user = prefs.getString('user');
-    return token != null && token.isNotEmpty && user != null && user.isNotEmpty;
+    final String? surveyId = prefs.getString('surveyId');
+    final int? currentPage = prefs.getInt('currentPage');
+    return token != null && token.isNotEmpty && user != null && user.isNotEmpty && surveyId != null && surveyId.isNotEmpty && currentPage != null && currentPage > 0;
   }
 
   Future<void> removeToken() async {
