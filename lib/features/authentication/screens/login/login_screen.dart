@@ -56,7 +56,7 @@ class _SignIn extends State<SignIn> {
                       child: Column(
                         children: [
                           TextFormField(
-                            validator: (value) => value!.isEmpty
+                            validator: (value) => value!.isEmpty && value.contains('@')
                                 ? 'Please enter your email'
                                 : null,
                             decoration: const InputDecoration(
@@ -69,7 +69,7 @@ class _SignIn extends State<SignIn> {
                           const SizedBox(
                               height: TSizes.spaceBtwInputFields / 2),
                           TextFormField(
-                            validator: (value) => value!.isEmpty
+                            validator: (value) => value!.isEmpty && value.length > 6 && value.length < 20 && value != ''
                                 ? 'Please enter your password'
                                 : null,
                             decoration: InputDecoration(

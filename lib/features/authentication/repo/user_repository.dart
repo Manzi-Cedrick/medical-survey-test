@@ -40,17 +40,15 @@ class UserRepository {
       },
       body: jsonEncode(user.toJson()),
     );
-    print('Hello login user !');
 
     final Map<String, dynamic> responseData = jsonDecode(response.body);
     final String? message = responseData['message'];
     final String token = responseData['token'];
-    print(responseData);
-    final int currentPage = responseData['currentPage'];
-    final String surveyId = responseData['surveyId'];
-    print('Hello login currentPage !');
-    storeCurrentPage(currentPage);
-    storeSurveyId(surveyId);
+    if (responseData['surveyId'] != null) {
+      storeSurveyId(responseData['surveyId']);
+    } 
+    storeCurrentPage(responseData['currentPage']);
+
     if (responseData['data'] != null) {
       UserModel userModel = const UserModel();
       if (responseData['data'] != null) {
@@ -166,7 +164,7 @@ class UserRepository {
     final String? user = prefs.getString('user');
     final String? surveyId = prefs.getString('surveyId');
     final int? currentPage = prefs.getInt('currentPage');
-    return token != null && token.isNotEmpty && user != null && user.isNotEmpty && surveyId != null && surveyId.isNotEmpty && currentPage != null && currentPage > 0;
+    return token != null && token.isNotEmpty && user != null && user.isNotEmpty && currentPage != null && currentPage > 0;
   }
 
   Future<void> removeToken() async {
