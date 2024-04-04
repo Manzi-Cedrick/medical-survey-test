@@ -84,11 +84,7 @@ class _SwitchScreenState extends State<SwitchScreen> {
       case 20:
         return const EndSurveyScreen();
       default:
-        return const Scaffold(
-          body: Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
+        return const DobScreen();
     }
   }
 }
