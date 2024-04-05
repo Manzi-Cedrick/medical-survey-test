@@ -36,7 +36,6 @@ class _SignIn extends State<SignIn> {
     return Scaffold(
       body: BlocConsumer<AuthBlocBloc, AuthBlocState>(
         listener: (context, state) {
-          // TODO: implement listener
         },
         builder: (context, state) {
           return SingleChildScrollView(

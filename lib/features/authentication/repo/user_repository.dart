@@ -40,16 +40,17 @@ class UserRepository {
       },
       body: jsonEncode(user.toJson()),
     );
-
     final Map<String, dynamic> responseData = jsonDecode(response.body);
     final String? message = responseData['message'];
-    final String token = responseData['token'];
+
     if (responseData['surveyId'] != null) {
       storeSurveyId(responseData['surveyId']);
-    } 
-    storeCurrentPage(responseData['currentPage']);
-
-    if (responseData['data'] != null) {
+    }
+    if (responseData['currentPage'] != null) {
+      storeCurrentPage(responseData['currentPage']);
+    }
+    if (response.statusCode == 200) {
+      final String token = responseData['token'];
       UserModel userModel = const UserModel();
       if (responseData['data'] != null) {
         userModel = UserModel.fromJson(responseData['data']);
@@ -148,6 +149,7 @@ class UserRepository {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('surveyId') ?? '';
   }
+
   Future<UserModel?> getUserFromStorage() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? userString = prefs.getString('user');
@@ -164,7 +166,12 @@ class UserRepository {
     final String? user = prefs.getString('user');
     final String? surveyId = prefs.getString('surveyId');
     final int? currentPage = prefs.getInt('currentPage');
-    return token != null && token.isNotEmpty && user != null && user.isNotEmpty && currentPage != null && currentPage > 0;
+    return token != null &&
+        token.isNotEmpty &&
+        user != null &&
+        user.isNotEmpty &&
+        currentPage != null &&
+        currentPage > 0;
   }
 
   Future<void> removeToken() async {
@@ -175,5 +182,14 @@ class UserRepository {
   Future<String> getToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token') ?? '';
+  }
+
+  // logout
+  Future<void> logout() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('token');
+    prefs.remove('user');
+    prefs.remove('surveyId');
+    prefs.remove('currentPage');
   }
 }

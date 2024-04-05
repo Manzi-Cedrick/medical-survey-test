@@ -42,6 +42,7 @@ class _SwitchScreenState extends State<SwitchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(currentPage);
     switch (currentPage) {
       case 1:
         return const DobScreen();

@@ -157,6 +157,7 @@ class __SidebarState extends State<Sidebar> {
                       builder: (context) => const SettingsScreen()));
             },
           ),
+          
         ],
       ),
     );

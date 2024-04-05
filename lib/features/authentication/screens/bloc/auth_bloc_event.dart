@@ -59,3 +59,8 @@ class AuthBlocSubmitEvent extends AuthBlocEvent {
   @override
   List<Object> get props => [status,context];
 }
+
+class AuthBlocLogoutEvent extends AuthBlocEvent {
+  final BuildContext context;
+  const AuthBlocLogoutEvent(this.context);
+}

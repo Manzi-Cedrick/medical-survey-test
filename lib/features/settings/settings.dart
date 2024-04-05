@@ -56,7 +56,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTile(
             leading: Icon(Icons.logout, size: 28),
             title: Text('Log out'),
-            onTap: () {},
+            onTap: () {
+            }
           ),
           // Delete account and share
           ListTile(

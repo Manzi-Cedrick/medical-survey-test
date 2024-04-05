@@ -4,6 +4,7 @@ import 'package:app_test/features/authentication/model/user_model.dart';
 import 'package:app_test/features/authentication/repo/user_repository.dart';
 import 'package:app_test/features/authentication/screens/login/login_screen.dart';
 import 'package:app_test/features/survey-format/screen/starter_screen_dob.dart';
+import 'package:app_test/switch_screen.dart';
 import 'package:app_test/utils/theme/widget_themes/custom_snackbar.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -79,7 +80,7 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
               Future.delayed(const Duration(seconds: 2), () {
                 Navigator.push(
                   event.context,
-                  MaterialPageRoute(builder: (context) => const DobScreen()),
+                  MaterialPageRoute(builder: (context) => SwitchScreen()),
                 );
               });
               emit(state.copyWith(status: AuthBlocStatus.success));
@@ -93,6 +94,17 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
       } catch (e) {
         emit(state.copyWith(status: AuthBlocStatus.failure));
       }
+    });
+    on<AuthBlocLogoutEvent>((event, emit) async {
+      await userRepository.logout();
+      CustomSnackbar.show(event.context, 'Logged out', 'Success');
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.push(
+          event.context,
+          MaterialPageRoute(builder: (context) => const SignIn()),
+        );
+      });
+      emit(const AuthBlocInitial());
     });
   }
 }
